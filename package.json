@@ -1,0 +1,36 @@
+{
+  "name": "windsor",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "check": "svelte-check --tsconfig ./tsconfig.json"
+  },
+  "devDependencies": {
+    "@sveltejs/vite-plugin-svelte": "^2.0.3",
+    "@threlte/core": "^6.0.0-next.7",
+    "@threlte/extras": "^5.0.0-next.13",
+    "@tsconfig/svelte": "^4.0.1",
+    "@types/three": "^0.152.1",
+    "eslint": "^8.41.0",
+    "eslint-plugin-svelte": "^2.29.0",
+    "svelte": "^3.59.1",
+    "svelte-check": "^2.10.3",
+    "three": "^0.152.2",
+    "tslib": "^2.5.0",
+    "typescript": "^5.0.2",
+    "vite": "^4.3.2"
+  },
+  "dependencies": {
+    "@lume/three-meshline": "^4.0.5",
+    "@picocss/pico": "^1.5.10",
+    "@sanity/client": "^6.1.2",
+    "@sanity/image-url": "^1.0.2",
+    "path": "^0.12.7",
+    "simplex-noise": "^4.0.1",
+    "three.meshline": "^1.4.0"
+  }
+}
