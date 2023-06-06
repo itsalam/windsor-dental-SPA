@@ -1,7 +1,7 @@
-<<<<<<< HEAD
 # windsor-dental-SPA
-Single page app for a dental clinic. 
-=======
+
+Single page app for a dental clinic.
+
 # Svelte + TS + Vite
 
 This template should help get you started developing with Svelte and TypeScript in Vite.
@@ -46,7 +46,13 @@ If you have state that's important to retain within a component, consider creati
 ```ts
 // store.ts
 // An extremely simple external store
-import { writable } from 'svelte/store'
-export default writable(0)
+import { writable } from "svelte/store";
+export default writable(0);
 ```
->>>>>>> b33b756 (inital commit)
+
+## TODO LIST
+
+1. Add little sparks to the teeth
+2. Fade in stylings
+3. Update service Icons
+4. Meet the team page/FAQ page

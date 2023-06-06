@@ -1,4 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Lora:wght@300;400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Muli:wght@300;400;500;600&display=swap");
 
 html {
   overflow-x: clip;
@@ -12,6 +13,7 @@ html {
 [data-theme="light"] {
   --background-color: #f4ebe7;
   --h1-color: #192c56;
+  --h2-color: #192c56;
   --color: #192c56;
   --primary: #192c56;
 }
@@ -21,7 +23,25 @@ html {
   --typography-spacing-vertical: 0;
   --border-radius: 1.5rem;
   --form-element-spacing-horizontal: 1.5rem;
-  font-family: Roboto, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  --font-family: Lora, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Muli, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.226);
+  border-radius: 16px;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(6.9px);
+  -webkit-backdrop-filter: blur(6.9px);
+  border: 1px solid rgba(255, 255, 255, 0.58);
+}
+
+.book-button {
+  background-color: var(--background-color);
+  font-size: calc(0.85 * var(--font-size));
+  padding: calc(1.25 * var(--form-element-spacing-vertical))
+    var(--form-element-spacing-horizontal);
+  max-width: 210px;
 }
 
 h1,
@@ -38,7 +58,7 @@ h2 {
 
 button {
   --primary: #f7630c;
-  --primary-hover: #ff9a5f;
+  --primary-hover: #eab469;
 }
 
 p {
@@ -61,9 +81,28 @@ main {
 
 h1 {
   --font-size: 3.2rem;
+  font-weight: 500;
   line-height: 1.1;
+  margin: 0px;
 }
 
 #app {
   width: 100%;
+}
+
+.page-container {
+  height: 100vh;
+  padding: 15vh 15vw 15vh;
+}
+
+@media only screen and (max-width: 992px) {
+  .page-container {
+    padding: 5%;
+    padding-top: 20%;
+  }
+}
+@media only screen and (max-width: 900px) {
+  h1 {
+    --font-size: 2.5rem;
+  }
 }

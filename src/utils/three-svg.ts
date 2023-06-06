@@ -1,9 +1,11 @@
 import { createTransition } from "@threlte/extras";
 import { cubicOut } from "svelte/easing";
-import type { Material } from "three";
 import {
+  Color,
   DoubleSide,
+  Material,
   Matrix4,
+  Mesh,
   MeshBasicMaterial,
   ShapeGeometry,
   Vector3,
@@ -12,11 +14,13 @@ import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
 
 const loader = new SVGLoader();
 
-const fade = createTransition<Material>((ref) => {
-  if (!ref.transparent) ref.transparent = true;
+export const fade = createTransition<Mesh>((ref) => {
+  const materials: Material[] =
+    ref.material instanceof Material ? [ref.material] : ref.material;
+  materials.forEach((material) => (material.transparent = true));
   return {
     tick(t) {
-      ref.opacity = t;
+      materials.forEach((material) => (material.opacity = t));
     },
     easing: cubicOut,
     duration: 400,
@@ -31,9 +35,14 @@ export const loadData = (spriteSrc, spritemeshArr, scale, callback) =>
       let maxGeoSize = new Vector3(0, 0, 0);
       for (let path of paths) {
         if (path.color.getHex() === 0) {
-          path.color = getComputedStyle(
-            document.documentElement
-          ).getPropertyValue("--primary");
+          path.color = new Color(
+            parseInt(
+              getComputedStyle(document.documentElement)
+                .getPropertyValue("--primary")
+                .replace(/^#/, ""),
+              16
+            )
+          );
         }
         const material = new MeshBasicMaterial({
           color: path.color,
