@@ -12,6 +12,7 @@ html {
 [data-theme="light"] {
   --background-color: #f4ebe7;
   --h1-color: #192c56;
+  --h2-color: #192c56;
   --color: #192c56;
   --primary: #192c56;
 }

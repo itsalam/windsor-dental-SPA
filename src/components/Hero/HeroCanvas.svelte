@@ -1,5 +1,6 @@
 <script lang="ts">
   import { Canvas, T } from "@threlte/core";
+  import { OrbitControls } from "@threlte/extras";
   import type { Mesh } from "three";
   import { injectLookAtPlugin } from "~/utils/plugins";
   import BackDrop from "./three/BackDrop.svelte";
@@ -22,14 +23,14 @@
   const groupPos = (innerWidth, outerHeight?) => {
     if (innerWidth <= 992) {
       return {
-        position: [-5, 8, -20 + 0 - 10 * (innerWidth / 3200)],
+        position: [-2.5, 4, -20 + 0 - 10 * (innerWidth / 3200)],
       };
     }
     return {
       position: [
-        -4 + 15 * (innerWidth / 3200),
-        1,
-        -20 + 25 * (innerWidth / 3200),
+        -5 + 20 * (innerWidth / 3200),
+        -2,
+        -10 + 25 * (innerWidth / 3200),
       ],
     };
   };
@@ -57,10 +58,10 @@
       <T.PerspectiveCamera
         makeDefault
         position={[-0, 0, 50]}
-        lookAt={[-2, 2, 0]}
+        lookAt={[-2, -2, 0]}
         fov={24}
       >
-        <!-- <OrbitControls /> -->
+        <OrbitControls /> 
       </T.PerspectiveCamera>
 
       {#if heroInfo && heroInfo.assets}

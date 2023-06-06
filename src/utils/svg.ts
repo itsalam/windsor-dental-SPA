@@ -1,6 +1,6 @@
 import { createTransition } from "@threlte/extras";
 import { cubicOut } from "svelte/easing";
-import type { Material } from "three";
+import { Color, Material } from "three";
 import {
   DoubleSide,
   Matrix4,
@@ -31,9 +31,9 @@ export const loadData = (spriteSrc, spritemeshArr, scale, callback) =>
       let maxGeoSize = new Vector3(0, 0, 0);
       for (let path of paths) {
         if (path.color.getHex() === 0) {
-          path.color = getComputedStyle(
+          path.color = new Color(parseInt(getComputedStyle(
             document.documentElement
-          ).getPropertyValue("--primary");
+          ).getPropertyValue("--primary").replace(/^#/, ''), 16));
         }
         const material = new MeshBasicMaterial({
           color: path.color,
