@@ -15,10 +15,4 @@
     min-width: 45vw;
   }
 
-  :global(.halftoneSvg) {
-    opacity: 5%;
-    position: relative;
-    top: 50%;
-    z-index: -1;
-  }
 </style>

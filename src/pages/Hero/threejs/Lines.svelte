@@ -44,7 +44,7 @@
     new Vector3(6.5, 5, 0),
     new Vector3(4, 8, 3),
     new Vector3(12, 10, 0),
-    new Vector3(50, 15, 0),
+    new Vector3(50, 12, 0),
   ];
 
   let curve = new CatmullRomCurve3(curvePoints);

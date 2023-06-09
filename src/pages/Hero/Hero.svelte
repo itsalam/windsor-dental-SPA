@@ -11,8 +11,7 @@
 
   sanity.then((data) => {
     data.subscribe((value) => {
-      console.log(value);
-      heroInfo = value.heroInfo[0];
+      heroInfo = value.heroInfo;
       contactInfo = value.contactInfo;
       getSrc = value.getSrc;
       getAssetSrc = value.getAssetSrc;
@@ -59,7 +58,7 @@
     justify-content: center;
     width: 100%;
     padding: 0rem 2rem;
-    gap: 2rem;
+    gap: 1rem;
   }
 
   .hero-footer button {
@@ -113,6 +112,7 @@
   } */
 
   h1 {
+    --font-size: 2.8rem;
     width: 100%;
   }
 
@@ -133,13 +133,16 @@
     }
 
     h1 {
-      --font-size: 2.5rem;
+      --font-size: 2.4rem;
     }
   }
 
   @media only screen and (max-height: 900px) {
     h1 {
       --font-size: 2.2rem;
+    }
+    .desc {
+      --font-size: 0.9rem;
     }
   }
 </style>

@@ -1,5 +1,8 @@
+import { useFrame, useThrelte } from "@threlte/core";
 import { createTransition } from "@threlte/extras";
+import { beforeUpdate } from "svelte";
 import { cubicOut } from "svelte/easing";
+import { tweened, type Tweened } from "svelte/motion";
 import {
   Color,
   DoubleSide,
@@ -11,6 +14,7 @@ import {
   Vector3,
 } from "three";
 import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
+import inView from "./actions";
 
 const loader = new SVGLoader();
 
@@ -34,6 +38,7 @@ export const loadData = (spriteSrc, spritemeshArr, scale, callback) =>
       const paths = data.paths;
       let maxGeoSize = new Vector3(0, 0, 0);
       for (let path of paths) {
+        let depthWrite = false;
         if (path.color.getHex() === 0) {
           path.color = new Color(
             parseInt(
@@ -43,10 +48,11 @@ export const loadData = (spriteSrc, spritemeshArr, scale, callback) =>
               16
             )
           );
+          depthWrite = true;
         }
         const material = new MeshBasicMaterial({
           color: path.color,
-          depthWrite: false,
+          depthWrite,
           side: DoubleSide,
         });
         const shapes = SVGLoader.createShapes(path);
@@ -77,3 +83,61 @@ export const loadData = (spriteSrc, spritemeshArr, scale, callback) =>
       console.error(error);
     }
   );
+
+export function followElement(
+  nodeQuery: string,
+  yBounds: number[],
+  positionY: Tweened<number> = tweened(0),
+  callBack: (positionY: Tweened<number>) => void
+) {
+  let observerLoaded = false;
+
+  const { camera } = useThrelte();
+
+  useFrame(() => {
+    if (
+      yBounds[0] > camera.current.position.y &&
+      yBounds[1] < camera.current.position.y
+    ) {
+      positionY.set(camera.current.position.y);
+      callBack(positionY);
+    } else {
+      const closestBound =
+        yBounds[0] < camera.current.position.y ? yBounds[0] : yBounds[1];
+      positionY.set(closestBound);
+      callBack(positionY);
+    }
+  });
+
+  const calcYbounds = (target) => {
+    const top = window.pageYOffset + target.getBoundingClientRect().top;
+    return [
+      (-top * 30) / window.innerHeight,
+      (-(top + target.getBoundingClientRect().height - window.innerHeight / 2) *
+        30) /
+        window.innerHeight,
+    ];
+  };
+
+  const observeNode = async () => {
+    let serviceNode = document.querySelector(nodeQuery);
+    while (!serviceNode) {
+      await new Promise((r) => setTimeout(r, 100));
+      serviceNode = document.querySelector(nodeQuery);
+    }
+    yBounds = calcYbounds(serviceNode);
+    inView(document.querySelector("main"), () => {
+      yBounds = calcYbounds(serviceNode);
+      console.log(yBounds);
+    });
+  };
+
+  beforeUpdate(() => {
+    if (!observerLoaded) {
+      observeNode();
+      observerLoaded = true;
+    }
+  });
+
+  return positionY;
+}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { T } from "@threlte/core";
+  import { T, useFrame } from "@threlte/core";
   import {
     Float,
     HTML,
@@ -10,7 +10,7 @@
   import { Vector3 } from "three";
   import { degToRad } from "three/src/math/MathUtils";
   import Svg from "~/components/Svg.svelte";
-  import { fade, loadData } from "~/utils/three-svg";
+  import { fade, loadData } from "~/utils/three";
 
   interactivity();
   transitions();
@@ -27,7 +27,7 @@
   let pointsLoaded = false;
   let lineSpriteMeshs = [];
   let spriteMeshs = [];
-
+  let sparkleMeshs = []; 
 
   const spritePoint = new Vector3(5.5, -1.0, 1);
   const linePoints: Vector3[] = [
@@ -38,10 +38,11 @@
   ];
   const halfTonesPosArr = [[0, -4, -20], [-9.5, 3.5, -20]]
 
-  let rotations = []
+  let spriteRotations = []
+  let dn = Date.now()
 
   $: if (linePoints.length > 0 && !pointsLoaded) {
-    rotations = linePoints.map(() =>
+    spriteRotations = linePoints.map(() =>
       degToRad(Math.random() * MAX_ROTATION - MAX_ROTATION / 2)
     );
     pointsLoaded = true;
@@ -51,9 +52,22 @@
     loadData(getAssetSrc("tooth"), lineSpriteMeshs, SCALE, () => {
       lineSpriteMeshs = [...lineSpriteMeshs];
     });
+    loadData(getAssetSrc("sparkle"), sparkleMeshs, SCALE, () => {
+      sparkleMeshs = [...sparkleMeshs];
+    });
     loadData(getAssetSrc("toothbrush"), spriteMeshs, SCALE, () => {
       spriteMeshs = [...spriteMeshs];
     });
+  });
+
+  const getStarPos = (position, offset = 0.8) => {
+    const x = position[0] + Math.random() * offset - offset / 2;
+    const y = position[1] + Math.random() * offset - offset / 2;
+    return [x, y, position[2]];
+  };
+
+  useFrame((_, delta) => {
+    dn = Date.now()
   });
   halftoneSvg = getAssetSrc("halftone");
   const onSpritePointerOver = () => {};
@@ -66,14 +80,29 @@
 >
   {#each linePoints as position, i}
     <T.Group>
+      {#each sparkleMeshs as sparkleMesh}        
+        <T.Mesh
+          {...sparkleMesh}
+          position={getStarPos([position.x, position.y, 1],2)}
+          scale={degToRad(Math.sin(dn/ 700 + i*900))}
+        />
+        <T.Mesh
+          {...sparkleMesh}
+          position={getStarPos([position.x, position.y, 1], 3)}
+          scale={degToRad(Math.sin(dn/ 700 + i* 1300))}
+        />
+      {/each}
       {#each lineSpriteMeshs as spriteMesh}
+        
         <T.Mesh
           {...spriteMesh}
           position={[position.x, position.y, 0]}
-          rotation={[0, 0, rotations[i]]}
+          rotation={[0, 0, spriteRotations[i]]}
           transition={fade}
           on:pointerover={onSpritePointerOver}
         />
+        
+
       {/each}
       {#if SHOW_COORD}
         <HTML position={[position.x, position.y, 5.5]}>
