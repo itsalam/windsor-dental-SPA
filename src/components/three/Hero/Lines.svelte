@@ -34,14 +34,17 @@
   interactivity();
   const curvePoints = [
     new Vector3(-25, -15, 0),
-    new Vector3(-7, 0, 0),
-    new Vector3(-2, 3, 0),
-    new Vector3(6, 1, 0),
-    new Vector3(-2, 7, 0),
-    new Vector3(6, 5, 0),
-    new Vector3(4, 8, 0),
+    new Vector3(-7, 0, -3),
+    new Vector3(-2, 3, -3),
+    new Vector3(4, 1, 3),
+    new Vector3(5, 1, -2),
+    new Vector3(2, 5, 2),
+    new Vector3(-1.5, 6, 0),
+    new Vector3(2, 7, -5),
+    new Vector3(6.5, 5, 0),
+    new Vector3(4, 8, 3),
     new Vector3(12, 10, 0),
-    new Vector3(30, 12, 0),
+    new Vector3(50, 15, 0),
   ];
 
   let curve = new CatmullRomCurve3(curvePoints);
@@ -52,28 +55,26 @@
     .fill()
     .map(() => new BufferGeometry());
   const material = new LineBasicMaterial({
-    color: 0x939ea4,
+    color: 0xf7630c,
   });
 
   export let zPoints = [];
   const waveFunction = (time?: number) => (p: Vector3, i: number) => {
-    const zPointsArr = [];
     const n = NOISE_PARAMS.reduce(
       (acc, { frequency, amplitude, timeFrequency }) =>
         acc +
-        noise((i / points.length) * frequency + time * timeFrequency) *
+          noise((i / points.length) * frequency + time * timeFrequency) *
           amplitude,
       0
     );
     const gradient = curve.getTangent(i / points.length);
-    const zPoint = Math.sin(i * 120) * 3.2;
     const vec3 = new Vector3(
       n * gradient.y * -1 * 0.15,
       n * gradient.x * 0.15,
-      zPoint
+      0
     );
 
-    if (Math.abs(zPoint) > 1.95 && p.x > -10 && p.x < 10) {
+    if (Math.abs(p.z) > 1.95 && p.x > -10 && p.x < 10) {
       zPoints.push(p.clone().add(vec3.clone().multiplyScalar(1)));
     }
 
@@ -98,7 +99,7 @@
     return geometry;
   };
 
-  useFrame((ctx, delta) => {
+  useFrame((ctx) => {
     const newcurve = new CatmullRomCurve3(
       curve.getPoints(50).map(waveFunction(ctx.clock.elapsedTime))
     );

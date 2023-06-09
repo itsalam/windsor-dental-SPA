@@ -1,67 +1,56 @@
 <script lang="ts">
-  import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
   import { fade } from "svelte/transition";
+  import Svg from "../../components/Svg.svelte";
   import { sanity, type ContactInfo, type HeroInfo } from "../../store/client";
-  import Svg from "../Svg.svelte";
-  import HeroCanvas from "./HeroCanvas.svelte";
+  import BackDrop from "./BackDrop.svelte";
 
   let heroInfo: HeroInfo,
     contactInfo: ContactInfo[],
-    getSrc: (src: SanityImageSource) => string;
+    getSrc: () => string,
+    getAssetSrc: () => string;
 
   sanity.then((data) => {
     data.subscribe((value) => {
+      console.log(value);
       heroInfo = value.heroInfo[0];
       contactInfo = value.contactInfo;
       getSrc = value.getSrc;
+      getAssetSrc = value.getAssetSrc;
     });
   });
-
-  const loadPromise = Promise.all([
-    sanity,
-    new Promise((r) => setTimeout(r, 1000)),
-  ]);
 </script>
 
-{#await loadPromise}
-  <progress />
-{:then}
-  <div class="hero-body" transition:fade={{ delay: 350, duration: 600 }}>
+{#await sanity then}
+  <div
+    class="hero-body page-container"
+    transition:fade={{ delay: 350, duration: 600 }}
+  >
     <div class="desc">
       <h1>{heroInfo.greeting}</h1>
       <p class="subtext" transition:fade={{ delay: 2050, duration: 600 }}>
         {heroInfo.subtext}
       </p>
       <div class="hero-footer" transition:fade={{ delay: 2050, duration: 600 }}>
-        <button> Book Online </button>
+        <button class="book-button glass"> Book Online </button>
         <div class="details">
           {#each contactInfo as info}
-            <div class="contact-item">
+            <article class="contact-item glass">
               <Svg class="contact-svg" src={getSrc(info.thumbnail)} />
               <p>{info.value}</p>
-            </div>
+            </article>
           {/each}
         </div>
       </div>
     </div>
+    <BackDrop backdropSvg={getAssetSrc("backdrop-hero")} />
   </div>
-  <HeroCanvas {getSrc} {heroInfo} />
 {/await}
 
 <style>
-  progress {
-    position: absolute;
-    height: 2px;
-    padding: 0px;
-    margin: 0px;
-  }
-
   .hero-body {
     display: flex;
-    justify-content: start;
+    justify-content: end;
     place-items: center;
-    height: 100vh;
-    padding: 5% 10%;
   }
 
   .hero-footer {
@@ -77,6 +66,7 @@
     padding: calc(1.33 * var(--form-element-spacing-vertical))
       calc(1.33 * var(--form-element-spacing-horizontal));
     max-width: 210px;
+    max-height: 60px;
   }
 
   .desc {
@@ -85,7 +75,7 @@
     justify-content: center;
 
     flex-basis: 45%;
-    /* width: 45%; */
+    width: 45%;
     gap: 1rem;
   }
 
@@ -93,9 +83,13 @@
     display: flex;
     flex-direction: column;
     gap: 0.125rem;
+
+    --block-spacing-vertical: 0.5rem;
   }
 
   .contact-item {
+    --block-spacing-horizontal: 1rem;
+    margin: 0.25rem;
     display: flex;
     align-items: center;
     gap: 0.25rem;
@@ -106,6 +100,7 @@
   }
 
   :global(.contact-svg) {
+    height: 32px;
     min-width: 32px;
     max-width: 32px;
     display: flex;
@@ -113,29 +108,38 @@
     justify-content: center;
   }
 
-  .subtext {
+  /* .subtext {
     font-size: calc(0.9 * var(--font-size));
-  }
+  } */
 
   h1 {
     width: 100%;
-    font-weight: 500;
-    margin: 0px;
   }
 
   @media only screen and (max-width: 992px) {
     .hero-body {
       flex-direction: column;
       justify-content: flex-end;
+      padding: 5%;
     }
 
     .desc {
       width: 100%;
-      margin: 1rem 1rem;
+      gap: 0rem;
+    }
+
+    .hero-footer {
+      gap: 0.5rem;
     }
 
     h1 {
       --font-size: 2.5rem;
+    }
+  }
+
+  @media only screen and (max-height: 900px) {
+    h1 {
+      --font-size: 2.2rem;
     }
   }
 </style>

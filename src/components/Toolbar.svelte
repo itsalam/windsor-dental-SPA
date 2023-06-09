@@ -12,13 +12,13 @@
 <nav class="toolbar" class:mobile={innerWidth < 992}>
   <h2>Windsor Dental Clinic</h2>
   <ul class="menu" class:active>
-    <li><a> Home </a></li>
-    <li><a> Services </a></li>
-    <li><a> About </a></li>
-    <li><a> Contact </a></li>
-    <button> Book Online </button>
+    <li><a class="glass"> Home </a></li>
+    <li><a class="glass"> Services </a></li>
+    <li><a class="glass"> About </a></li>
+    <li><a class="glass"> Contact </a></li>
+    <button class="book-button glass"> Book Online </button>
   </ul>
-  <button class:active class="menu-button" on:click={toggleMenu}>
+  <button class="menu-button" class:active on:click={toggleMenu}>
     <span />
     <span />
   </button>
@@ -33,6 +33,7 @@
     width: inherit;
     position: fixed;
     padding: 1rem 2rem;
+    z-index: 100;
   }
 
   .menu {
@@ -41,7 +42,7 @@
     align-items: center;
     gap: 1rem;
     font-size: calc(0.75 * var(--font-size));
-    transition: all 0.2s ease;
+    transition: opacity 0.2s ease;
   }
 
   .mobile .menu {
@@ -56,7 +57,6 @@
     top: 0;
     left: 10px;
     gap: 0rem;
-    transition: all 0.6s ease;
     opacity: 0%;
     visibility: hidden;
   }
@@ -133,12 +133,5 @@
   li {
     list-style: none;
     font-size: calc(0.8 * var(--font-size));
-  }
-
-  button {
-    font-size: calc(0.85 * var(--font-size));
-    padding: calc(0.8 * var(--form-element-spacing-vertical))
-      var(--form-element-spacing-horizontal);
-    max-width: 210px;
   }
 </style>

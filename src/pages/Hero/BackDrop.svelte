@@ -1,25 +1,18 @@
 <script lang="ts">
   import Svg from "~/components/Svg.svelte";
-
-  const SCALE = 1.5;
-
   export let backdropSvg: string;
-
-  let backdropMeshs = [];
-  let halftoneMeshs = [];
 </script>
 
-<Svg src={backdropSvg} class="backdropSvg" />
+<Svg src={backdropSvg} class="hero-backdropSvg" />
 
 <style>
-  :global(.backdropSvg) {
+  :global(.hero-backdropSvg) {
     position: absolute;
-    transform: scale(1.25);
-    bottom: 10vh;
-    right: 0%;
+    top: 0;
+    left: 0%;
     z-index: -1;
-    width: 80vw;
-    min-width: 1080px;
+    height: 100vh;
+    min-width: 45vw;
   }
 
   :global(.halftoneSvg) {

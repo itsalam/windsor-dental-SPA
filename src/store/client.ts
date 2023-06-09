@@ -19,6 +19,17 @@ export type ContactInfo = {
   link?: string;
 };
 
+export type ServiceInfo = {
+  name: string;
+  thumbnail: SanityImageSource;
+  description: string;
+};
+
+export type SanityAsset = {
+  name: string;
+  thumbnail: SanityImageSource;
+};
+
 const client = createClient({
   projectId: "0aa51zx5",
   dataset: "production",
@@ -29,23 +40,31 @@ const client = createClient({
 
 const builder = imageUrlBuilder(client);
 
-async function getSchema(schemaName: string) {
+async function getSchema(schemaName: string, additionalQuery?: string) {
   const schema = await client.fetch(
-    `*[_type == "${schemaName}"] | order(_createdAt asc)`
+    `*[_type == "${schemaName}"]${additionalQuery ?? ""}| order(_createdAt asc)`
   );
   return schema;
 }
 
 async function sanityClient() {
-  const heroInfo: HeroInfo[] = await getSchema("hero");
+  const heroInfo: HeroInfo[] = await getSchema("hero", `{..., assets[]->}`);
   const contactInfo: ContactInfo[] = await getSchema("contact");
+  const servicesInfo: ServiceInfo[] = await getSchema("services");
   const getSrc = (src: SanityImageSource) => builder.image(src).url();
+  const assets: SanityAsset[] = await getSchema("asset");
+  function getAssetSrc(name: string) {
+    const src = assets.find((asset) => asset.name.includes(name)).thumbnail;
+    return getSrc(src);
+  }
 
   const { subscribe } = readable({
+    assets,
     heroInfo,
-
+    servicesInfo,
     contactInfo,
     getSrc,
+    getAssetSrc,
   });
 
   return {

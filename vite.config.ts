@@ -11,6 +11,6 @@ export default defineConfig({
   },
   plugins: [svelte()],
   ssr: {
-    noExternal: ["three", "troika-three-text"],
+    noExternal: ["three"],
   },
 });

@@ -1,15 +1,18 @@
 <script lang="ts">
   import { T } from "@threlte/core";
-  import { Float, HTML, createTransition, transitions } from "@threlte/extras";
-  import { cubicOut } from "svelte/easing";
+  import {
+    Float,
+    HTML,
+    interactivity,
+    transitions
+  } from "@threlte/extras";
   import { onMount } from "svelte/internal";
-  import type { Mesh } from "three";
   import { Vector3 } from "three";
-  import { SVGLoader } from "three/examples/jsm/loaders/SVGLoader";
   import { degToRad } from "three/src/math/MathUtils";
   import Svg from "~/components/Svg.svelte";
-  import { loadData } from "~/utils/svg";
+  import { fade, loadData } from "~/utils/three-svg";
 
+  interactivity();
   transitions();
 
   const SCALE = 0.03;
@@ -17,61 +20,49 @@
   const HALFTONE_SCALE = 2;
   const SHOW_COORD = false;
 
-  export let lineSpriteSrc: string;
-  export let spriteSrc: string;
-  export let halftoneSvg: string;
-
+  
+  export let getAssetSrc: () => string;
+  
+  let halftoneSvg: string;
   let pointsLoaded = false;
   let lineSpriteMeshs = [];
   let spriteMeshs = [];
 
-  let spritePoint = new Vector3(5.5, -1.0, 1);
 
-  let linePoints: Vector3[] = [
+  const spritePoint = new Vector3(5.5, -1.0, 1);
+  const linePoints: Vector3[] = [
     new Vector3(-2, 3, 1),
     new Vector3(4, 1, 1),
     new Vector3(0.8, 6.2, 1),
     new Vector3(5.4, 5.75, 1),
   ];
+  const halfTonesPosArr = [[0, -4, -20], [-9.5, 3.5, -20]]
 
-  let rotations = linePoints.map((p) =>
-    degToRad(Math.random() * MAX_ROTATION - MAX_ROTATION / 2)
-  );
+  let rotations = []
 
   $: if (linePoints.length > 0 && !pointsLoaded) {
-    rotations = linePoints.map((p) =>
+    rotations = linePoints.map(() =>
       degToRad(Math.random() * MAX_ROTATION - MAX_ROTATION / 2)
     );
     pointsLoaded = true;
   }
 
-  const loader = new SVGLoader();
   onMount(() => {
-    loadData(lineSpriteSrc, lineSpriteMeshs, SCALE, () => {
+    loadData(getAssetSrc("tooth"), lineSpriteMeshs, SCALE, () => {
       lineSpriteMeshs = [...lineSpriteMeshs];
     });
-    loadData(spriteSrc, spriteMeshs, SCALE, () => {
+    loadData(getAssetSrc("toothbrush"), spriteMeshs, SCALE, () => {
       spriteMeshs = [...spriteMeshs];
     });
   });
-
-  const fade = createTransition<Mesh>((ref) => {
-    if (!ref.transparent) ref.transparent = true;
-    return {
-      tick(t) {
-        ref.opacity = t;
-      },
-      easing: cubicOut,
-      duration: 400,
-    };
-  });
+  halftoneSvg = getAssetSrc("halftone");
+  const onSpritePointerOver = () => {};
 </script>
 
 <Float
   floatIntensity={3}
   scale={1}
-  rotationIntensity={1}
-  rotationSpeed={[0.4, 0.5, 0]}
+  rotationIntensity={0}
 >
   {#each linePoints as position, i}
     <T.Group>
@@ -81,6 +72,7 @@
           position={[position.x, position.y, 0]}
           rotation={[0, 0, rotations[i]]}
           transition={fade}
+          on:pointerover={onSpritePointerOver}
         />
       {/each}
       {#if SHOW_COORD}
@@ -115,19 +107,13 @@
     {/if}
   </T.Group>
 </Float>
-<HTML
-  class="backdropGroup"
-  position={[-1.5, -4, -20]}
-  scale={[HALFTONE_SCALE, HALFTONE_SCALE, HALFTONE_SCALE]}
-  transform
->
-  <Svg src={halftoneSvg} class="halftoneSvg" />
-</HTML>
-<HTML
-  class="backdropGroup"
-  position={[8.5, 6.5, -20]}
-  scale={[HALFTONE_SCALE, HALFTONE_SCALE, HALFTONE_SCALE]}
-  transform
->
-  <Svg src={halftoneSvg} class="halftoneSvg" />
-</HTML>
+{#each halfTonesPosArr as halfTonesPos}
+  <HTML
+    class="backdropGroup"
+    position={halfTonesPos}
+    scale={[HALFTONE_SCALE, HALFTONE_SCALE, HALFTONE_SCALE]}
+    transform
+  >
+    <Svg src={halftoneSvg} class="halftoneSvg" />
+  </HTML>
+{/each}
