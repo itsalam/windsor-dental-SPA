@@ -56,3 +56,6 @@ export default writable(0);
 2. Fade in stylings
 3. Update service Icons
 4. Meet the team page/FAQ page
+5. Hover interactivity
+6. Nav bar wiring
+7.

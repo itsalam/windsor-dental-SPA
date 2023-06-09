@@ -1,9 +1,6 @@
 <script lang="ts">
   import { Canvas, T } from "@threlte/core";
-<<<<<<< HEAD
-=======
   import { OrbitControls } from "@threlte/extras";
->>>>>>> 066f218 (Added Service page, added linting, moved to having threejs as a fixed background)
   import { sanity, type SanityAsset } from "~/store/client";
   import { injectLookAtPlugin } from "~/utils/plugins";
   import HeroGroup from "./three/Hero/HeroGroup.svelte";
@@ -57,7 +54,7 @@
         makeDefault
         {...cameraPos(innerWidth, innerHeight, scrollY)}
       >
-        <!-- <OrbitControls /> -->
+        <OrbitControls />
       </T.PerspectiveCamera>
       <!-- <Grid axes={"xyz"} infiniteGrid cellThickness={0.2} sectionThickness={0.5}/> -->
       {#if assets}

@@ -34,6 +34,7 @@ export const loadData = (spriteSrc, spritemeshArr, scale, callback) =>
       const paths = data.paths;
       let maxGeoSize = new Vector3(0, 0, 0);
       for (let path of paths) {
+        let depthWrite = false;
         if (path.color.getHex() === 0) {
           path.color = new Color(
             parseInt(
@@ -43,10 +44,11 @@ export const loadData = (spriteSrc, spritemeshArr, scale, callback) =>
               16
             )
           );
+          depthWrite = true;
         }
         const material = new MeshBasicMaterial({
           color: path.color,
-          depthWrite: false,
+          depthWrite,
           side: DoubleSide,
         });
         const shapes = SVGLoader.createShapes(path);
