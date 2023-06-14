@@ -9,7 +9,7 @@
   import { onMount } from "svelte/internal";
   import { degToRad } from "three/src/math/MathUtils";
   import Svg from "~/components/Svg.svelte";
-  import { loadData } from "~/utils/three-svg";
+  import { loadData } from "~/utils/three";
 
   interactivity();
   transitions();
@@ -22,9 +22,9 @@
   let chairMesh = [];
   let chartMesh = [];
 
-  const chairPos = [15, 0, 1];
-  const chartPos = [17, 3, 1];
-  const halfTonesPosArr = [[20, 0, -20], [30, -7, -20]]
+  const chairPos = [15, 0, -10];
+  const chartPos = [17, 3, -10];
+  const halfTonesPosArr = [[15, 5, -20], [25, -2, -20]]
 
   onMount(() => {
     loadData(getAssetSrc("chair"), chairMesh, SCALE, () => {
@@ -39,6 +39,7 @@
 
 <Float
   floatIntensity={5}
+  speed={2}
   rotationIntensity={0.1}
   rotationSpeed={[0.0, 0.0, 0]}
 >
@@ -46,7 +47,7 @@
     {#each chairMesh as spriteMesh}
       <T.Mesh
         {...spriteMesh}
-        scale={[0.5, 0.5, 0.5]}
+        scale={0.5}
         position={chairPos}
         rotation={[0, degToRad(180), 0]}
       />
@@ -55,7 +56,7 @@
     {#each chartMesh as spriteMesh}
       <T.Mesh
         {...spriteMesh}
-        scale={[3, 3, 3]}
+        scale={3}
         position={chartPos}
         rotation={[0, degToRad(180), 0]}
       />
@@ -64,11 +65,17 @@
 </Float>
 {#each halfTonesPosArr as halfTonesPos}
   <HTML
-    class="backdropGroup"
     position={halfTonesPos}
-    scale={[HALFTONE_SCALE, HALFTONE_SCALE, HALFTONE_SCALE]}
+    scale={HALFTONE_SCALE}
     transform
   >
     <Svg src={halftoneSvg} class="halftoneSvg" />
   </HTML>
+
 {/each}
+<HTML class="backdrop"
+  position={[25, -3, -5]}
+  transform
+  scale={7}>
+  <Svg class="service-backdropSvg" src={getAssetSrc("backdrop-service")} />
+</HTML>

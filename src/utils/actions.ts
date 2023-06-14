@@ -1,32 +1,24 @@
-type inViewConfig = Partial<{
+export type inViewConfig = Partial<{
   root: any;
   top: number;
   bottom: number;
+  threshold: number;
 }>;
 
-export default function inView(
-  node,
-  callback?: IntersectionObserverCallback,
-  params: inViewConfig = {}
-) {
+export default function inView(node, callback?: ResizeObserverCallback) {
   let observer;
 
-  const setObserver = (config: inViewConfig) => {
-    const { root, top, bottom } = config;
-    const marginTop = top ? top * -1 : 0;
-    const marginBottom = bottom ? bottom * -1 : 0;
-    const rootMargin = `${marginTop}px 0px ${marginBottom}px 0px`;
-    const options = { root: root ?? null, rootMargin };
+  const setObserver = () => {
     if (observer) observer.disconnect();
-    observer = new IntersectionObserver(callback, options);
+    observer = new ResizeObserver(callback);
     observer.observe(node);
   };
 
-  setObserver(params);
+  setObserver();
 
   return {
-    update(params) {
-      setObserver(params);
+    update() {
+      setObserver();
     },
 
     destroy() {

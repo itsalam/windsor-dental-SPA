@@ -58,4 +58,4 @@ export default writable(0);
 4. Meet the team page/FAQ page
 5. Hover interactivity
 6. Nav bar wiring
-7.
+7. Different assets for mobile view

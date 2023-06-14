@@ -7,7 +7,7 @@
   export let isWide;
 </script>
 
-<T.Group position={isWide? [-10, 0, 0]: [0 ,0 ,0]}>
+<T.Group position={isWide? [-10, -2.5, 0]: [0 , -2.5 ,0]}>
   <Sprites
     {getAssetSrc}
   />

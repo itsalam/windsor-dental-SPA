@@ -10,7 +10,7 @@
   import { Vector3 } from "three";
   import { degToRad } from "three/src/math/MathUtils";
   import Svg from "~/components/Svg.svelte";
-  import { fade, loadData } from "~/utils/three-svg";
+  import { fade, loadData } from "~/utils/three";
 
   interactivity();
   transitions();
@@ -67,7 +67,6 @@
   };
 
   useFrame((_, delta) => {
-    console.log(delta)
     dn = Date.now()
   });
   halftoneSvg = getAssetSrc("halftone");
@@ -84,15 +83,13 @@
       {#each sparkleMeshs as sparkleMesh}        
         <T.Mesh
           {...sparkleMesh}
-          position={getStarPos([position.x, position.y, 1])}
-          rotation={[0, 0, degToRad(Math.sin(dn/ 1000 + i*500 )* 180)]}
-          scale={degToRad(Math.sin(dn/ 700 + i*800))}
+          position={getStarPos([position.x, position.y, 1],2)}
+          scale={degToRad(Math.sin(dn/ 700 + i*900))}
         />
         <T.Mesh
           {...sparkleMesh}
-          position={getStarPos([position.x, position.y, 1], 0.8)}
-          rotation={[0, 0, degToRad(Math.sin(dn/ 1000 + i*1200 )* 180)]}
-          scale={degToRad(Math.sin(dn/ 700 + i* 1000))}
+          position={getStarPos([position.x, position.y, 1], 3)}
+          scale={degToRad(Math.sin(dn/ 700 + i* 1300))}
         />
       {/each}
       {#each lineSpriteMeshs as spriteMesh}

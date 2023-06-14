@@ -28,12 +28,12 @@ html {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.226);
+  background: rgba(255, 255, 255, 0.233);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.9px);
   -webkit-backdrop-filter: blur(6.9px);
-  border: 1px solid rgba(255, 255, 255, 0.58);
+  border: 1px solid rgba(255, 255, 255, 0.336);
 }
 
 .book-button {
@@ -76,7 +76,7 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10vh;
+  gap: 20vh;
 }
 
 h1 {
@@ -92,7 +92,14 @@ h1 {
 
 .page-container {
   height: 100vh;
-  padding: 15vh 15vw 15vh;
+  padding: 15vh 20vw 15vh;
+}
+
+.halftoneSvg {
+  opacity: 5%;
+  position: relative;
+  top: 50%;
+  z-index: -1;
 }
 
 @media only screen and (max-width: 992px) {
