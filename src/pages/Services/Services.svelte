@@ -11,13 +11,11 @@
   let innerHeight;
   let titleElem;
 
-  sanity.then((data) => {
-    data.subscribe((value) => {
-      servicesInfo = value.servicesInfo;
-      cards = Array(servicesInfo.length);
-      getAssetSrc = value.getAssetSrc;
-      getSrc = value.getSrc;
-    });
+  sanity.subscribe((value) => {
+    servicesInfo = value.servicesInfo;
+    cards = Array(servicesInfo.length);
+    getAssetSrc = value.getAssetSrc;
+    getSrc = value.getSrc;
   });
 
   const handleScroll = () => {

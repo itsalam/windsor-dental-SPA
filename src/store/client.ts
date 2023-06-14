@@ -1,7 +1,7 @@
 import { createClient } from "@sanity/client";
 import imageUrlBuilder from "@sanity/image-url";
 import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
-import { readable } from "svelte/store";
+import { derived, readable, type Readable } from "svelte/store";
 
 export type HeroInfo = {
   greeting: string;
@@ -50,36 +50,61 @@ async function getSchema(schemaName: string, additionalQuery?: string) {
   const query = `*[_type == "${schemaName}"]${
     additionalQuery ?? " | order(_createdAt asc)"
   }`;
-  console.log(query);
   const schema = await client.fetch(query);
   return schema;
 }
 
-async function sanityClient() {
-  const heroInfo: HeroInfo[] = await getSchema("hero", `[0]{..., assets[]->}`);
-  const contactInfo: ContactInfo[] = await getSchema("contact");
-  const servicesInfo: ServiceInfo[] = await getSchema("services");
-  const teamInfo: TeamInfo[] = await getSchema("team", `[0]{..., assets[]->}`);
-  const getSrc = (src: SanityImageSource) => builder.image(src).url();
-  const assets: SanityAsset[] = await getSchema("asset");
-  function getAssetSrc(name: string) {
-    const src = assets.find((asset) => asset.name.includes(name)).thumbnail;
-    return getSrc(src);
-  }
-
-  const { subscribe } = readable({
-    assets,
-    contactInfo,
-    heroInfo,
-    servicesInfo,
-    teamInfo,
-    getSrc,
-    getAssetSrc,
+const makeSanityStore = (schemaName: string, additionalQuery?: string) => {
+  return readable(null, (set) => {
+    getSchema(schemaName, additionalQuery).then(set);
   });
+};
 
-  return {
-    subscribe,
-  };
-}
+const heroInfo: Readable<HeroInfo> = makeSanityStore(
+  "hero",
+  `[0]{..., assets[]->}`
+);
+const contactInfo: Readable<ContactInfo[]> = makeSanityStore("contact");
+const servicesInfo: Readable<ServiceInfo[]> = makeSanityStore("services");
+const teamInfo: Readable<TeamInfo> = makeSanityStore(
+  "team",
+  `[0]{..., assets[]->}`
+);
+const assets: Readable<SanityAsset[]> = makeSanityStore("asset");
 
-export const sanity = sanityClient();
+export const sanity = derived(
+  [heroInfo, contactInfo, servicesInfo, teamInfo, assets],
+  (promises, set) => {
+    const getSrc = (src: SanityImageSource) => builder.image(src).url();
+
+    function getAssetSrc(name: string) {
+      const src = promises[4].find((asset) =>
+        asset.name.includes(name)
+      ).thumbnail;
+      return getSrc(src);
+    }
+    const progress =
+      promises.filter((p) => p !== null).length / promises.length;
+    console.log(progress);
+    set({
+      heroInfo: promises[0],
+      contactInfo: promises[1],
+      servicesInfo: promises[2],
+      teamInfo: promises[3],
+      assets: promises[4],
+      getAssetSrc,
+      getSrc,
+      progress,
+    });
+  },
+  {
+    heroInfo: null,
+    contactInfo: null,
+    servicesInfo: null,
+    teamInfo: null,
+    assets: null,
+    getAssetSrc: null,
+    getSrc: null,
+    progress: 0,
+  }
+);

@@ -4,10 +4,8 @@
 
   let teamInfo: TeamInfo;
 
-  sanity.then((data) => {
-    data.subscribe((value) => {
-      teamInfo = value.teamInfo;
-    });
+  sanity.subscribe((value) => {
+    teamInfo = value.teamInfo;
   });
 
 </script>

@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { tweened } from "svelte/motion";
   import Canvas from "./components/Canvas.svelte";
   import Toolbar from "./components/Toolbar.svelte";
   import Hero from "./pages/Hero/Hero.svelte";
@@ -11,10 +12,10 @@
 
 
   let getAssetSrc: () => string;
-  sanity.then((data) => {
-    data.subscribe((value) => {
-      getAssetSrc = value.getAssetSrc;
-    });
+  let progress = tweened(0, { duration: 400 });
+  sanity.subscribe((value) => {
+    getAssetSrc = value.getAssetSrc;
+    progress.set(value.progress);
   });
 
   let innerWidth;
@@ -23,7 +24,6 @@
   $: isWide = innerWidth > 992
 
   const loadPromise = Promise.all([
-    sanity,
     new Promise((r) => setTimeout(r, 1000)),
   ]);
 </script>
@@ -32,7 +32,7 @@
 
 {#await loadPromise}
   <main>
-    <progress />
+    <progress value={$progress} max="1" />
   </main>
 {:then}
   <Toolbar />

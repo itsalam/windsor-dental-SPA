@@ -9,13 +9,12 @@
     getSrc: () => string,
     getAssetSrc: () => string;
 
-  sanity.then((data) => {
-    data.subscribe((value) => {
-      heroInfo = value.heroInfo;
-      contactInfo = value.contactInfo;
-      getSrc = value.getSrc;
-      getAssetSrc = value.getAssetSrc;
-    });
+  sanity.subscribe((value) => {
+    console.log(value)
+    heroInfo = value.heroInfo;
+    contactInfo = value.contactInfo;
+    getSrc = value.getSrc;
+    getAssetSrc = value.getAssetSrc;
   });
 </script>
 
