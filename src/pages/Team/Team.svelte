@@ -55,9 +55,11 @@
     width: 100%;
   }
 
-  #teams-page :global(.card) {
+  #teams-page :global(.team-card) {
     height: 100%;
     width: 55%;
+    padding: 2rem;
+    white-space: break-spaces;
   }
 
 </style>

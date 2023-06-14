@@ -15,7 +15,10 @@
   let progress = tweened(0, { duration: 400 });
   sanity.subscribe((value) => {
     getAssetSrc = value.getAssetSrc;
-    progress.set(value.progress);
+    setTimeout(() => {
+      progress.set(value.progress);
+    
+    }, 200);
   });
 
   let innerWidth;
@@ -25,14 +28,20 @@
 
   const loadPromise = Promise.all([
     new Promise((r) => setTimeout(r, 1000)),
+    new Promise((r) => {
+      progress.subscribe((v) => {
+        if (v === 1) r();
+      });
+    }),
   ]);
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight />
 
 {#await loadPromise}
-  <main>
+  <main class="loading">
     <progress value={$progress} max="1" />
+    <h1 class="loading-title">{Math.trunc($progress*100)}%</h1>
   </main>
 {:then}
   <Toolbar />
@@ -49,7 +58,26 @@
 {/await}
 
 <style>
-  progress {
+
+  .loading {
+    height:100vh;
+  }
+.loading-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 66%;
+}
+
+.loading-title {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+progress {
     position: absolute;
     height: 2px;
     padding: 0px;

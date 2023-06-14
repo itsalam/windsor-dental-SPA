@@ -10,7 +10,6 @@
   .card {
     display: flex;
     align-items: center;
-    padding: 18px;
     border-radius: 15px;
     gap: 1rem;
     --mask-position-y: 100%;

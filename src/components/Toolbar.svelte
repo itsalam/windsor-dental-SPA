@@ -134,4 +134,5 @@
     list-style: none;
     font-size: calc(0.8 * var(--font-size));
   }
+
 </style>

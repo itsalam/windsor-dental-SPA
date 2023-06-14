@@ -74,8 +74,8 @@
 
 {/each}
 <HTML class="backdrop"
-  position={[25, -3, -5]}
+  position={[35, -3, -60]}
   transform
-  scale={7}>
+  scale={10}>
   <Svg class="service-backdropSvg" src={getAssetSrc("backdrop-service")} />
 </HTML>
