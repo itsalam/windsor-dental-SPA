@@ -113,7 +113,7 @@ export function followElement(
     const top = window.pageYOffset + target.getBoundingClientRect().top;
     return [
       (-top * 30) / window.innerHeight,
-      (-(top + target.getBoundingClientRect().height - window.innerHeight / 2) *
+      (-(top + target.getBoundingClientRect().height - window.innerHeight) *
         30) /
         window.innerHeight,
     ];

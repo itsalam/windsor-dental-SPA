@@ -3,9 +3,11 @@
   import { sanity, type TeamInfo } from "../../store/client";
 
   let teamInfo: TeamInfo;
+  let getAssetSrc;
 
   sanity.subscribe((value) => {
     teamInfo = value.teamInfo;
+    getAssetSrc = value.getAssetSrc;
   });
 
 </script>
@@ -19,6 +21,8 @@
     <div class="card-container">
       <Card
         class="team-card glass">
+        
+        <img class="service-backdropSvg" src={getAssetSrc("team_photo")} />
         {teamInfo.description}
       </Card>
     </div>
@@ -26,15 +30,6 @@
 {/await}
 
 <style>
-  .page-container {
-    height: auto;
-    position: relative;
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-  }
-
   :global(.service-card) {
     margin: 1rem 0;
   }
@@ -42,9 +37,7 @@
   .title {
     padding-bottom: 2rem;
     margin-bottom: 2rem;
-    top: 8rem;
-    position: sticky;
-    z-index: 1;
+    position: initial;
   }
 
   .card-container {
@@ -57,9 +50,15 @@
 
   #teams-page :global(.team-card) {
     height: 100%;
-    width: 55%;
     padding: 2rem;
     white-space: break-spaces;
+    background-color: rgb(255 255 255 / 75%);
   }
+
+    img {
+        width: 720px;
+        height: 520px;
+        object-fit: cover;
+    }
 
 </style>

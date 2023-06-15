@@ -52,7 +52,7 @@
     z-index: -1;
     position: fixed;
     height: 100vh;
-    width: 100%;
+    width: 100vw;
     top: 0;
     left: 0%;
   }

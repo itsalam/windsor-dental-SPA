@@ -55,7 +55,7 @@
     .fill()
     .map(() => new BufferGeometry());
   const material = new LineBasicMaterial({
-    color: 0xf7630c,
+    color: 0x5C93B3,
   });
 
   export let zPoints = [];

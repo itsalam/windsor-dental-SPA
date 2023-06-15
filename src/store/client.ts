@@ -17,6 +17,7 @@ export type ContactInfo = {
   thumbnail: SanityImageSource;
   value: string;
   link?: string;
+  breakText?: boolean;
 };
 
 export type ServiceInfo = {
@@ -29,6 +30,11 @@ export type TeamInfo = {
   slogan?: string;
   thumbnails: SanityImageSource[];
   description: string;
+};
+
+export type FAQInfo = {
+  question: string;
+  answer: string;
 };
 
 export type SanityAsset = {
@@ -70,28 +76,30 @@ const teamInfo: Readable<TeamInfo> = makeSanityStore(
   "team",
   `[0]{..., assets[]->}`
 );
+const faqsInfo: Readable<FAQInfo[]> = makeSanityStore("faqs");
 const assets: Readable<SanityAsset[]> = makeSanityStore("asset");
 
 export const sanity = derived(
-  [heroInfo, contactInfo, servicesInfo, teamInfo, assets],
+  [heroInfo, contactInfo, servicesInfo, teamInfo, faqsInfo, assets],
   (promises, set) => {
     const getSrc = (src: SanityImageSource) => builder.image(src).url();
 
     function getAssetSrc(name: string) {
-      const src = promises[4].find((asset) =>
+      const src = promises[5].find((asset) =>
         asset.name.includes(name)
       ).thumbnail;
       return getSrc(src);
     }
     const progress =
       promises.filter((p) => p !== null).length / promises.length;
-    console.log(progress);
+
     set({
       heroInfo: promises[0],
       contactInfo: promises[1],
       servicesInfo: promises[2],
       teamInfo: promises[3],
-      assets: promises[4],
+      faqsInfo: promises[4],
+      assets: promises[5],
       getAssetSrc,
       getSrc,
       progress,
@@ -102,6 +110,7 @@ export const sanity = derived(
     contactInfo: null,
     servicesInfo: null,
     teamInfo: null,
+    faqsInfo: null,
     assets: null,
     getAssetSrc: null,
     getSrc: null,

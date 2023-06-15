@@ -2,6 +2,7 @@
   import { tweened } from "svelte/motion";
   import Canvas from "./components/Canvas.svelte";
   import Toolbar from "./components/Toolbar.svelte";
+  import Faq from "./pages/FAQ/FAQ.svelte";
   import Hero from "./pages/Hero/Hero.svelte";
   import HeroGroup from "./pages/Hero/threejs/HeroGroup.svelte";
   import Services from "./pages/Services/Services.svelte";
@@ -49,6 +50,7 @@
     <Hero bind:clientHeight={pageHeights[0]} />
     <Services bind:clientHeight={pageHeights[1]} />
     <Team bind:clientHeight={pageHeights[2]} />
+    <Faq bind:clientHeight={pageHeights[3]} />
     <Canvas> 
       <HeroGroup {getAssetSrc} {isWide} />
       <ServiceGroup {getAssetSrc} {isWide} serviceHeight={pageHeights[1]} />
@@ -67,16 +69,8 @@
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  opacity: 66%;
+  opacity: 75%;
 }
-
-.loading-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
 progress {
     position: absolute;
     height: 2px;

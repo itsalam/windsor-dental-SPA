@@ -12,10 +12,10 @@
 <nav class="toolbar" class:mobile={innerWidth < 992}>
   <h2>Windsor Dental Clinic</h2>
   <ul class="menu" class:active>
-    <li><a class="glass"> Home </a></li>
-    <li><a class="glass"> Services </a></li>
-    <li><a class="glass"> About </a></li>
-    <li><a class="glass"> Contact </a></li>
+    <li><a class=""> Home </a></li>
+    <li><a class=""> Services </a></li>
+    <li><a class=""> About </a></li>
+    <li><a class=""> Contact </a></li>
     <button class="book-button glass"> Book Online </button>
   </ul>
   <button class="menu-button" class:active on:click={toggleMenu}>
@@ -34,6 +34,7 @@
     position: fixed;
     padding: 1rem 2rem;
     z-index: 100;
+    width: 100%;
   }
 
   .menu {

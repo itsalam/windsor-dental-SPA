@@ -31,6 +31,9 @@
     height: 52px;
     width: 52px;
   }
-
+  :global(.card-svg svg) {
+    height: 52px;
+    width: 52px;
+  }
 
 </style>

@@ -22,17 +22,11 @@
     {getAssetSrc}
   />
   <HTML class="backdrop"
-    position={[-10, -0, -5]}
+    position={[-13, -2, -5]}
     transform
-    scale={1}>
-    <img class="service-backdropSvg" src={getAssetSrc("team_photo")} />
-  </HTML>
+    scale={1} />
 </T.Group>
 
 <style>
-    img {
-        width: 520px;
-        height: 400px;
-        object-fit: cover;
-    }
+
 </style>

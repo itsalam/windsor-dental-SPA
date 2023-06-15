@@ -27,8 +27,16 @@ html {
   font-family: Muli, Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 }
 
+.title {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  top: 8rem;
+  position: sticky;
+  z-index: 1;
+}
+
 .glass {
-  background: rgba(255, 255, 255, 0.233);
+  background: rgba(255, 255, 255, 0.533);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.9px);
@@ -91,8 +99,10 @@ h1 {
 }
 
 .page-container {
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
   padding: 15vh 20vw 15vh;
+  min-height: 100vh;
 }
 
 .halftoneSvg {
@@ -106,5 +116,12 @@ h1 {
   .page-container {
     padding: 5%;
     padding-top: 20%;
+  }
+}
+
+@media only screen and (max-height: 900px) {
+  .page-container {
+    padding: 5%;
+    padding-top: 10%;
   }
 }
