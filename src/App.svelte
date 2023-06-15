@@ -3,6 +3,7 @@
   import Canvas from "./components/Canvas.svelte";
   import Toolbar from "./components/Toolbar.svelte";
   import Faq from "./pages/FAQ/FAQ.svelte";
+  import Footer from "./pages/Footer.svelte";
   import Hero from "./pages/Hero/Hero.svelte";
   import HeroGroup from "./pages/Hero/threejs/HeroGroup.svelte";
   import Services from "./pages/Services/Services.svelte";
@@ -56,6 +57,7 @@
       <ServiceGroup {getAssetSrc} {isWide} serviceHeight={pageHeights[1]} />
       <TeamGroup {getAssetSrc} {isWide} />
     </Canvas>
+    <Footer />
   </main>
 {/await}
 

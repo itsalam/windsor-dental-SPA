@@ -37,6 +37,14 @@ export type FAQInfo = {
   answer: string;
 };
 
+export type Hours = {
+  from?: number;
+  to?: number;
+  closed?: boolean;
+};
+
+export type HoursInfo = Record<string, Hours>;
+
 export type SanityAsset = {
   name: string;
   thumbnail: SanityImageSource;
@@ -77,15 +85,16 @@ const teamInfo: Readable<TeamInfo> = makeSanityStore(
   `[0]{..., assets[]->}`
 );
 const faqsInfo: Readable<FAQInfo[]> = makeSanityStore("faqs");
+const hoursInfo: Readable<HoursInfo> = makeSanityStore("hours", `[0]`);
 const assets: Readable<SanityAsset[]> = makeSanityStore("asset");
 
 export const sanity = derived(
-  [heroInfo, contactInfo, servicesInfo, teamInfo, faqsInfo, assets],
+  [heroInfo, contactInfo, servicesInfo, teamInfo, faqsInfo, hoursInfo, assets],
   (promises, set) => {
     const getSrc = (src: SanityImageSource) => builder.image(src).url();
 
     function getAssetSrc(name: string) {
-      const src = promises[5].find((asset) =>
+      const src = promises[6].find((asset) =>
         asset.name.includes(name)
       ).thumbnail;
       return getSrc(src);
@@ -99,7 +108,8 @@ export const sanity = derived(
       servicesInfo: promises[2],
       teamInfo: promises[3],
       faqsInfo: promises[4],
-      assets: promises[5],
+      hoursInfo: promises[5],
+      assets: promises[6],
       getAssetSrc,
       getSrc,
       progress,
@@ -111,6 +121,7 @@ export const sanity = derived(
     servicesInfo: null,
     teamInfo: null,
     faqsInfo: null,
+    hoursInfo: null,
     assets: null,
     getAssetSrc: null,
     getSrc: null,
