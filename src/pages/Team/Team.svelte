@@ -3,7 +3,7 @@
   import { sanity, type TeamInfo } from "../../store/client";
 
   let teamInfo: TeamInfo;
-  let getAssetSrc;
+  let getAssetSrc: (arg: string) => string;
 
   sanity.subscribe((value) => {
     teamInfo = value.teamInfo;
@@ -13,7 +13,7 @@
 </script>
 
 {#await sanity then}
-  <div class="page-container" id="teams-page">
+  <div class="page-container" id="team">
     <div class="title">
       <h1>Meet the Team</h1>
     </div>
@@ -22,7 +22,7 @@
       <Card
         class="team-card glass">
         
-        <img class="service-backdropSvg" src={getAssetSrc("team_photo")} />
+        <img class="service-backdrop-svg" src={getAssetSrc("team_photo")} />
         {teamInfo.description}
       </Card>
     </div>
@@ -35,20 +35,20 @@
   }
 
   .title {
+    position: initial;
     padding-bottom: 2rem;
     margin-bottom: 2rem;
-    position: initial;
   }
 
   .card-container {
     display: flex;
     flex-grow: 1;
-    justify-content: flex-end;
     align-items: center;
+    justify-content: flex-end;
     width: 100%;
   }
 
-  #teams-page :global(.team-card) {
+  #team :global(.team-card) {
     height: 100%;
     padding: 2rem;
     white-space: break-spaces;

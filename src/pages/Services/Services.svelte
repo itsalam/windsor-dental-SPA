@@ -1,14 +1,14 @@
 <script lang="ts">
+  import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
   import Card from "~/components/Card.svelte";
   import InfoAccordian from "~/components/InfoAccordian.svelte";
   import ScrollContainer from "~/components/ScrollContainer.svelte";
   import { sanity, type ServiceInfo } from "../../store/client";
 
   let servicesInfo: ServiceInfo[],
-    getSrc: () => string;
-  let serviceContainer;
-  let cards;
-  let titleElem;
+    getSrc: (src: SanityImageSource) => string;
+  let cards: Element[];
+  let titleElem: Element;
   let topOffset = 0;
 
   sanity.subscribe((value) => {
@@ -20,7 +20,7 @@
 
 <!-- <svelte:window on:scroll={handleScroll} bind:innerHeight /> -->
 {#await sanity then}
-  <div class="page-container" id="services-page">
+  <div class="page-container" id="services">
     <div class="title" bind:this={titleElem}>
       <h1>Services</h1>
       <p>
@@ -31,7 +31,6 @@
 
     <ScrollContainer
       class="services-container"
-      bind:this={serviceContainer}
       elements={cards}
       topElement={titleElem}
       {topOffset}
@@ -58,20 +57,20 @@
   }
 
   :global(.service-card) {
+    padding: 0;
     margin: 1rem;
-    padding: 0rem;
   }
 
   :global(.services-container) {
-    max-width: 960px;
-    width: 66%;
+    right: 0;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    right: 0;
+    width: 66%;
+    max-width: 960px;
   }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (width <= 900px) {
   :global(.services-container) {
     width: 100%;
   }

@@ -3,8 +3,8 @@
   import Lines from "./Lines.svelte";
   import Sprites from "./Sprites.svelte";
 
-  export let getAssetSrc: () => string;
-  export let isWide;
+  export let getAssetSrc: (arg: string) => string;
+  export let isWide: boolean;
 </script>
 
 <T.Group position={isWide? [-10, -2.5, 0]: [0 , -2.5 ,0]}>

@@ -3,19 +3,16 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-
-  let serviceContainer;
-  let innerHeight;
-  export let topElement;
-  export let elements;
+  let innerHeight: number;
+  export let topElement: Element;
+  export let elements: Element[];
 
   onMount(() => {
   });
 
   const handleScroll = () => {
     const topOffset = topElement.getBoundingClientRect().bottom;
-    console.log(topOffset)
-    elements.forEach((element) => {
+    elements.forEach((element: Element) => {
       const top = element.getBoundingClientRect().top;
       const scrollDist = element.clientHeight;
       if (top < topOffset) {
@@ -42,7 +39,6 @@
 
 <div
   class={`scroll-container ${$$props.class}`}
-  bind:this={serviceContainer}
 >
   <slot />
 </div>

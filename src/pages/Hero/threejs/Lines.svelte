@@ -5,7 +5,7 @@
     BufferGeometry,
     CatmullRomCurve3,
     LineBasicMaterial,
-    Vector3,
+    Vector3
   } from "three";
   import { noise } from "~/utils/noise";
   type NoiseParams = {
@@ -52,7 +52,7 @@
   let points = curve.getPoints(50);
 
   const geometries: BufferGeometry[] = Array(NUM_LINES)
-    .fill()
+    .fill(null)
     .map(() => new BufferGeometry());
   const material = new LineBasicMaterial({
     color: 0x5C93B3,
@@ -82,7 +82,7 @@
     return newPoint;
   };
 
-  const setLinePoints = (curve, offset, i, time) => {
+  const setLinePoints = (curve: CatmullRomCurve3, offset: number, i: number, time: number) => {
     const geometry = new BufferGeometry();
     time -= TOTAL_TIME * offset * i;
     if (time % TOTAL_TIME < DELAY_TIME) {

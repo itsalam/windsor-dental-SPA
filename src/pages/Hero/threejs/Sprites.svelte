@@ -10,7 +10,7 @@
   import { Vector3 } from "three";
   import { degToRad } from "three/src/math/MathUtils";
   import Svg from "~/components/Svg.svelte";
-  import { fade, loadData } from "~/utils/three";
+  import { fade, loadData, type Position } from "~/utils/three";
 
   interactivity();
   transitions();
@@ -21,7 +21,7 @@
   const SHOW_COORD = false;
 
   
-  export let getAssetSrc: () => string;
+  export let getAssetSrc: (arg: string) => string;
   
   let halftoneSvg: string;
   let pointsLoaded = false;
@@ -36,7 +36,7 @@
     new Vector3(0.8, 6.2, 1),
     new Vector3(5.4, 5.75, 1),
   ];
-  const halfTonesPosArr = [[0, -4, -20], [-9.5, 3.5, -20]]
+  const halfTonesPosArr: Position[] = [[0, -4, -20], [-9.5, 3.5, -20]]
 
   let spriteRotations = []
   let dn = Date.now()
@@ -60,13 +60,13 @@
     });
   });
 
-  const getStarPos = (position, offset = 0.8) => {
+  const getStarPos = (position: Position, offset = 0.8) => {
     const x = position[0] + Math.random() * offset - offset / 2;
     const y = position[1] + Math.random() * offset - offset / 2;
     return [x, y, position[2]];
   };
 
-  useFrame((_, delta) => {
+  useFrame(() => {
     dn = Date.now()
   });
   halftoneSvg = getAssetSrc("halftone");

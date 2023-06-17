@@ -1,21 +1,31 @@
 <script lang="ts">
-  let innerWidth;
+  let innerWidth: number;
   let active = false;
-  const toggleMenu = (e: PointerEvent) => {
+  const toggleMenu = () => {
     active = !active;
-    console.log("toggle menu", e);
   };
+
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
+
 </script>
 
 <svelte:window bind:innerWidth />
 
-<nav class="toolbar" class:mobile={innerWidth < 992}>
+<nav class="toolbar glass"  class:mobile={innerWidth < 992}>
   <h2>Windsor Dental Clinic</h2>
   <ul class="menu" class:active>
-    <li><a class=""> Home </a></li>
-    <li><a class=""> Services </a></li>
-    <li><a class=""> About </a></li>
-    <li><a class=""> Contact </a></li>
+    <li><a href="#home"> Home </a></li>
+    <li><a href="#services"> Services </a></li>
+    <li><a href="#team"> Team </a></li>
+    <li><a href="#faqs"> FAQs </a></li>
     <button class="book-button glass"> Book Online </button>
   </ul>
   <button class="menu-button" class:active on:click={toggleMenu}>
@@ -24,24 +34,37 @@
   </button>
 </nav>
 
+
+
 <style>
   .toolbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
-    width: inherit;
+    --nav-element-spacing-horizontal: 0.5rem;
+    --nav-element-spacing-vertical: 0.5rem;
     position: fixed;
-    padding: 1rem 2rem;
     z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
+    padding: 0.5rem 2rem;
+    color: #fff;
+    background: rgb(255 255 255 / 71.2%);
+    border-radius: inherit;
+    box-shadow: 0 0 #0000, 0 0 #0000,0 1px 2px 0 #0000000d;
+  }
+
+  .toolbar .book-button {
+    padding: var(--form-element-spacing-vertical)
+      var(--form-element-spacing-horizontal);
+    margin-left: 1rem;
+    font-size: calc(0.80 * var(--font-size));
   }
 
   .menu {
     display: flex;
-    justify-content: space-between;
+    gap: 0.5rem;
     align-items: center;
-    gap: 1rem;
+    justify-content: space-between;
     font-size: calc(0.75 * var(--font-size));
     transition: opacity 0.2s ease;
   }
@@ -50,63 +73,62 @@
     --font-size: 2.2rem;
     --nav-element-spacing-vertical: 0.375rem;
     position: absolute;
-    justify-content: center;
-    flex-direction: column;
-    background-color: white;
-    width: 100vw;
-    height: 100vh;
     top: 0;
     left: 10px;
-    gap: 0rem;
-    opacity: 0%;
+    flex-direction: column;
+    gap: 0;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
     visibility: hidden;
+    background-color: white;
+    opacity: 0;
   }
 
   .mobile .menu.active {
     visibility: visible;
-    opacity: 100%;
+    opacity: 1;
   }
 
   .menu-button {
     --primary: var(--h1-color);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: start;
     gap: 0.25rem;
-    border: none;
-    background: transparent;
-    cursor: pointer;
-    padding: 0;
-    height: 13px;
+    align-items: start;
+    justify-content: space-between;
     width: 22px;
+    height: 13px;
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+  }
+
+  .menu-button:focus {
+    border: none;
+    outline: none;
+    box-shadow: none;
   }
 
   .toolbar:not(.mobile) .menu-button {
     display: none;
   }
 
-  .menu-button:focus {
-    outline: none;
-    border: none;
-    -webkit-box-shadow: none;
-    box-shadow: none;
-  }
-
   .menu-button span {
+    width: 100%;
+    height: 2px;
     background-color: var(--primary);
     border-radius: 1px;
-    height: 2px;
-    width: 100%;
-    transition: all 0.2s cubic-bezier(0.1, 0.82, 0.76, 0.965);
+    transition: all 0.35s cubic-bezier(0.1, 0.82, 0.76, 0.965);
   }
 
   .menu-button span:first-of-type {
-    transform: rotate(0deg) translateY(0px);
+    transform: rotate(0deg) translateY(0);
   }
 
   .menu-button span:last-of-type {
-    transform: rotate(0deg) translateY(0px);
+    transform: rotate(0deg) translateY(0);
   }
 
   .menu-button:not(.active):hover span:first-of-type {
@@ -117,14 +139,14 @@
     width: 80%;
   }
 
-  :global(.menu-button.active) span:first-of-type {
-    transform: translateY(5px) rotate(-135deg);
+  .menu-button.active :global(span:first-of-type) {
     width: 100%;
+    transform: translateY(6px) rotate(-135deg);
   }
 
-  :global(.menu-button.active) span:last-of-type {
-    transform: translateY(-5px) rotate(135deg);
+  .menu-button.active :global(span:last-of-type) {
     width: 100%;
+    transform: translateY(-5px) rotate(135deg);
   }
 
   h2 {
@@ -132,8 +154,13 @@
   }
 
   li {
-    list-style: none;
     font-size: calc(0.8 * var(--font-size));
+    list-style: none;
+    cursor: pointer;
+  }
+
+  li:hover {
+    filter:brightness(1.5);
   }
 
 </style>

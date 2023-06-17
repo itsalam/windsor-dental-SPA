@@ -52,10 +52,7 @@ export default writable(0);
 
 ## TODO LIST
 
-1. Add little sparks to the teeth
 2. Fade in stylings
-3. Update service Icons
-4. Meet the team page/FAQ page
-5. Hover interactivity
-6. Nav bar wiring
-7. Different assets for mobile view
+3. Hover interactivity
+4. Nav bar wiring
+5. Different assets for mobile view

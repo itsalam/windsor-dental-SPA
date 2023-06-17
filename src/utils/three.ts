@@ -18,6 +18,8 @@ import inView from "./actions";
 
 const loader = new SVGLoader();
 
+export type Position = [x: number, y: number, z: number];
+
 export const fade = createTransition<Mesh>((ref) => {
   const materials: Material[] =
     ref.material instanceof Material ? [ref.material] : ref.material;
@@ -31,7 +33,12 @@ export const fade = createTransition<Mesh>((ref) => {
   };
 });
 
-export const loadData = (spriteSrc, spritemeshArr, scale, callback) =>
+export const loadData = (
+  spriteSrc: string,
+  spritemeshArr: { geometry: ShapeGeometry; material: MeshBasicMaterial }[],
+  scale: number,
+  callback: () => any
+) =>
   loader.load(
     spriteSrc,
     (data) => {
@@ -109,8 +116,8 @@ export function followElement(
     }
   });
 
-  const calcYbounds = (target) => {
-    const top = window.pageYOffset + target.getBoundingClientRect().top;
+  const calcYbounds = (target: Element) => {
+    const top = window.scrollY + target.getBoundingClientRect().top;
     return [
       (-top * 30) / window.innerHeight,
       (-(top + target.getBoundingClientRect().height - window.innerHeight) *

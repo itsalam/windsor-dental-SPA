@@ -13,7 +13,7 @@
   import { sanity } from "./store/client";
 
 
-  let getAssetSrc: () => string;
+  let getAssetSrc: (arg: string) => string;
   let progress = tweened(0, { duration: 400 });
   sanity.subscribe((value) => {
     getAssetSrc = value.getAssetSrc;
@@ -23,14 +23,13 @@
     }, 200);
   });
 
-  let innerWidth;
-  let innerHeight;
-  let pageHeights = [];
+  let innerWidth: number;
+  let innerHeight: number;
   $: isWide = innerWidth > 992
 
   const loadPromise = Promise.all([
     new Promise((r) => setTimeout(r, 1000)),
-    new Promise((r) => {
+    new Promise<void>((r) => {
       progress.subscribe((v) => {
         if (v === 1) r();
       });
@@ -48,14 +47,14 @@
 {:then}
   <Toolbar />
   <main>
-    <Hero bind:clientHeight={pageHeights[0]} />
-    <Services bind:clientHeight={pageHeights[1]} />
-    <Team bind:clientHeight={pageHeights[2]} />
-    <Faq bind:clientHeight={pageHeights[3]} />
+    <Hero />
+    <Services />
+    <Team />
+    <Faq />
     <Canvas> 
       <HeroGroup {getAssetSrc} {isWide} />
-      <ServiceGroup {getAssetSrc} {isWide} serviceHeight={pageHeights[1]} />
-      <TeamGroup {getAssetSrc} {isWide} />
+      <ServiceGroup {getAssetSrc} />
+      <TeamGroup {getAssetSrc} />
     </Canvas>
     <Footer />
   </main>
@@ -66,17 +65,19 @@
   .loading {
     height:100vh;
   }
+  
 .loading-title {
   position: absolute;
   top: 50%;
   left: 50%;
+  opacity: 0.75;
   transform: translate(-50%, -50%);
-  opacity: 75%;
 }
+
 progress {
     position: absolute;
     height: 2px;
-    padding: 0px;
-    margin: 0px;
+    padding: 0;
+    margin: 0;
   }
 </style>

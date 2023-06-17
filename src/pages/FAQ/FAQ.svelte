@@ -5,10 +5,9 @@
   import { sanity, type FAQInfo } from "../../store/client";
 
   let faqsInfo: FAQInfo[],
-    getAssetSrc: () => string;
-  let serviceContainer;
-  let cards;
-  let titleElem;
+    getAssetSrc: (src: string) => string;
+  let cards: Element[];
+  let titleElem: Element;
   let midPoint = 0
 
   sanity.subscribe((value) => {
@@ -22,7 +21,7 @@
 </script>
 
 {#await sanity then}
-  <div class="page-container" id="faqs-page">
+  <div class="page-container" id="faqs">
     <div class="title" bind:this={titleElem}>
       <h1>FAQs</h1>
       <p>
@@ -32,7 +31,6 @@
 
     <ScrollContainer
       class="faq-container"
-      bind:this={serviceContainer}
       elements={cards}
       topElement={titleElem}
     >
@@ -80,17 +78,17 @@
   }
 
   :global(.faq-container) {
-    width: 100%;
-    display: flex;
-    justify-content: center;
     right: 0;
+    display: flex;
     gap: 1rem;
+    justify-content: center;
+    width: 100%;
   }
 
   :global(.faq-card) {
     width: 100%;
+    padding: 0;
     margin: 1rem;
-    padding: 0rem;
     white-space: normal;
   }
 
@@ -98,17 +96,17 @@
     white-space: normal;
   }
   
-  #faqs-page :global(.card-svg) {
-    height: 32px;
+  #faqs :global(.card-svg) {
     width: 32px;
+    height: 32px;
   }
 
-  #faqs-page :global(.card-svg svg) {
-    height: 32px;
+  #faqs :global(.card-svg svg) {
     width: 32px;
+    height: 32px;
   }
 
-@media only screen and (max-width: 900px) {
+@media only screen and (width <= 900px) {
   .faq-container {
   }
 

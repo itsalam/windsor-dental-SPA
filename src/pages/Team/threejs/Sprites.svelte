@@ -11,11 +11,11 @@
 
   const HALFTONE_SCALE = 1.75;
 
-  export let getAssetSrc: () => string;
+  export let getAssetSrc: (arg: string) => string;
   
   let halftoneSvg: string;
 
-  const halfTonesPosArr = [[-9.5, -4, -20], [-19, 3.5, -20]]
+  const halfTonesPosArr:[x: number, y: number, z: number][] = [[-9.5, -4, -20], [-19, 3.5, -20]]
 
   halftoneSvg = getAssetSrc("halftone");
 </script>
@@ -34,5 +34,5 @@
   position={[-20, -3, -5]}
   transform
   scale={4}>
-  <Svg class="service-backdropSvg" src={getAssetSrc("backdrop-team")} />
+  <Svg class="service-backdrop-svg" src={getAssetSrc("backdrop-team")} />
 </HTML>

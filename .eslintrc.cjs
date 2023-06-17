@@ -26,6 +26,8 @@ module.exports = {
   rules: {
     // override/add rules settings here, such as:
     // 'svelte/rule-name': 'error'
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": ["error"],
     "svelte/html-closing-bracket-spacing": 1,
     "svelte/html-quotes": 1,
     "svelte/html-self-closing": 1,

@@ -1,5 +1,5 @@
 <script lang="ts">
-  export let cardElem;
+  export let cardElem = undefined;
 </script>
 
 <article {...$$props} class={`${$$props.class} card`} bind:this={cardElem}>
@@ -8,19 +8,19 @@
 
 <style>
   .card {
-    display: flex;
-    align-items: center;
-    border-radius: 15px;
-    gap: 1rem;
     --mask-position-y: 100%;
     --mask: linear-gradient(
         to top,
-        rgba(255, 255, 255, 1) 0%,
-        rgba(255, 255, 255, 1) 47%,
-        rgba(255, 255, 255, 0.1) 52%,
-        rgba(255, 255, 255, 0) 100%
+        rgb(255 255 255 / 100%) 0%,
+        rgb(255 255 255 / 100%) 47%,
+        rgb(255 255 255 / 10%) 52%,
+        rgb(255 255 255 / 0%) 100%
       )
       0 100% / auto 212%;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    border-radius: 15px;
     -webkit-mask: var(--mask);
     mask: var(--mask);
     -webkit-mask-position: 50% var(--mask-position-y);
@@ -28,12 +28,13 @@
   }
 
   :global(.card-svg) {
-    height: 52px;
     width: 52px;
+    height: 52px;
   }
+
   :global(.card-svg svg) {
-    height: 52px;
     width: 52px;
+    height: 52px;
   }
 
 </style>

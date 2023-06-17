@@ -4,13 +4,17 @@
 
   injectLookAtPlugin();
 
-  let scrollY;
-  let innerWidth;
-  let innerHeight;
+  let scrollY: number;
+  let innerWidth: number;
+  let innerHeight: number;
   
   $: isWide = innerWidth > 992
 
-  const cameraPos = (innerWidth, innerHeight, scrollY) => {
+  const cameraPos = (innerWidth: number, innerHeight: number, scrollY: number): {
+    position: [x: number, y: number, z: number],
+    lookAt: [x: number, y: number, z: number],
+    fov: number
+  } => {
     if (!isWide) {
       const xPos = 2.5;
       const yPos = -5 - (30 * scrollY) / innerHeight;
@@ -49,12 +53,12 @@
 
 <style>
   .canvas {
-    z-index: -1;
     position: fixed;
-    height: 100vh;
-    width: 100vw;
     top: 0;
     left: 0%;
+    z-index: -1;
+    width: 100vw;
+    height: 100vh;
   }
 
   :global(.canvas>div) {

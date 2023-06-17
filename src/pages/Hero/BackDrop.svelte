@@ -3,16 +3,16 @@
   export let backdropSvg: string;
 </script>
 
-<Svg src={backdropSvg} class="hero-backdropSvg" />
+<Svg src={backdropSvg} class="hero-backdrop-svg" />
 
 <style>
-  :global(.hero-backdropSvg) {
+  :global(.hero-backdrop-svg) {
     position: absolute;
     top: 0;
     left: 0%;
     z-index: -1;
-    height: 100vh;
     min-width: 45vw;
+    height: 100vh;
   }
 
 </style>
