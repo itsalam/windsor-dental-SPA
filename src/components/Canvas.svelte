@@ -7,13 +7,17 @@
   let scrollY: number;
   let innerWidth: number;
   let innerHeight: number;
-  
-  $: isWide = innerWidth > 992
 
-  const cameraPos = (innerWidth: number, innerHeight: number, scrollY: number): {
-    position: [x: number, y: number, z: number],
-    lookAt: [x: number, y: number, z: number],
-    fov: number
+  $: isWide = innerWidth > 1080;
+
+  const cameraPos = (
+    innerWidth: number,
+    innerHeight: number,
+    scrollY: number
+  ): {
+    position: [x: number, y: number, z: number];
+    lookAt: [x: number, y: number, z: number];
+    fov: number;
   } => {
     if (!isWide) {
       const xPos = 2.5;
@@ -29,10 +33,9 @@
     return {
       position: [xPos, yPos, 100 - (20 * innerWidth) / 1280],
       lookAt: [xPos, yPos, 0],
-      fov: 24  - (2 * innerWidth) / 3200,
+      fov: 24 - (2 * innerWidth) / 3200,
     };
   };
-
 </script>
 
 <svelte:window bind:innerWidth bind:innerHeight bind:scrollY />
@@ -46,7 +49,6 @@
       />
       <!-- <Grid axes={"xyz"} infiniteGrid cellThickness={0.2} sectionThickness={0.5}/> -->
       <slot />
-
     </T.Scene>
   </Canvas>
 </div>
@@ -61,7 +63,7 @@
     height: 100vh;
   }
 
-  :global(.canvas>div) {
+  :global(.canvas > div) {
     z-index: -1 !important;
   }
 </style>

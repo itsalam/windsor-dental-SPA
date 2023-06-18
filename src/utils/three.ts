@@ -1,5 +1,9 @@
 import { useFrame, useThrelte } from "@threlte/core";
 import { createTransition } from "@threlte/extras";
+import type {
+  ThrelteTransition,
+  ThrelteTransitionConfig,
+} from "@threlte/extras/dist/transitions/types";
 import { beforeUpdate } from "svelte";
 import { cubicOut } from "svelte/easing";
 import { tweened, type Tweened } from "svelte/motion";
@@ -20,18 +24,25 @@ const loader = new SVGLoader();
 
 export type Position = [x: number, y: number, z: number];
 
-export const fade = createTransition<Mesh>((ref) => {
-  const materials: Material[] =
-    ref.material instanceof Material ? [ref.material] : ref.material;
-  materials.forEach((material) => (material.transparent = true));
-  return {
-    tick(t) {
-      materials.forEach((material) => (material.opacity = t));
-    },
-    easing: cubicOut,
-    duration: 400,
-  };
-});
+export const fade = (config?: ThrelteTransitionConfig) =>
+  createTransition<Mesh>((ref) => {
+    const materials: Material[] =
+      ref.material instanceof Material ? [ref.material] : ref.material;
+    return {
+      tick(t) {
+        materials.forEach((material) => (material.opacity = t));
+      },
+      easing: cubicOut,
+      duration: 1000,
+      ...config,
+    };
+  });
+
+export type MeshArgs = {
+  geometry: ShapeGeometry;
+  material: MeshBasicMaterial;
+  transition?: ThrelteTransition<any>;
+};
 
 export const loadData = (
   spriteSrc: string,
@@ -61,6 +72,7 @@ export const loadData = (
           color: path.color,
           depthWrite,
           side: DoubleSide,
+          transparent: true,
         });
         const shapes = SVGLoader.createShapes(path);
         const matrix = new Matrix4().makeScale(-scale, -scale, -scale);
@@ -135,7 +147,6 @@ export function followElement(
     yBounds = calcYbounds(serviceNode);
     inView(document.querySelector("main"), () => {
       yBounds = calcYbounds(serviceNode);
-      console.log(yBounds);
     });
   };
 

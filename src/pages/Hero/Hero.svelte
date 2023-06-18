@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { SanityImageSource } from "@sanity/image-url/lib/types/types";
   import { fade } from "svelte/transition";
+  import BookingButton from "~/components/Booking/BookingButton.svelte";
   import Svg from "../../components/Svg.svelte";
   import { sanity, type ContactInfo, type HeroInfo } from "../../store/client";
   import BackDrop from "./BackDrop.svelte";
@@ -11,7 +12,6 @@
     getAssetSrc: (src: string) => string;
 
   sanity.subscribe((value) => {
-    console.log(value)
     heroInfo = value.heroInfo;
     contactInfo = value.contactInfo;
     getSrc = value.getSrc;
@@ -22,7 +22,7 @@
 {#await sanity then}
   <div
     class="hero-body page-container"
-    transition:fade={{ delay: 350, duration: 600 }}
+    transition:fade={{ delay: 0, duration: 600 }}
     id="home"
   >
     <div class="desc">
@@ -35,12 +35,14 @@
           {#each contactInfo as info}
             <div class="contact-item" class:break-text={info.breakText}>
               <Svg class="contact-svg" src={getSrc(info.thumbnail)} />
-              <p>{info.value.replaceAll(", ",",\n")}</p>
+              <p>{info.value.replaceAll(", ", ",\n")}</p>
             </div>
           {/each}
         </div>
-        <div class="border"><span class="line" /><span>or</span><span class="line" /></div>
-        <button class="book-button glass"> Book Online </button>
+        <div class="border">
+          <span class="line" /><span>or</span><span class="line" />
+        </div>
+        <BookingButton />
       </div>
     </div>
 
@@ -65,7 +67,6 @@
   }
 
   .hero-footer button {
-    
     max-width: 210px;
     max-height: 60px;
   }
@@ -101,11 +102,11 @@
     font-size: calc(0.8 * var(--font-size));
     white-space: nowrap;
   }
-  
+
   .break-text {
     flex: 1 1;
   }
-  
+
   .break-text p {
     min-width: 110px;
     white-space: initial;
@@ -120,7 +121,7 @@
     padding: 0.25rem 2rem;
     line-height: 100%;
   }
-  
+
   .border .line {
     flex-basis: 100%;
     max-width: 210px;
@@ -131,10 +132,9 @@
   }
 
   .border span {
-    font-weight:500;
+    font-weight: 500;
     vertical-align: middle;
   }
-
 
   :global(.contact-svg) {
     display: flex;
@@ -150,7 +150,7 @@
     width: 100%;
   }
 
-  @media only screen and (width <= 992px) {
+  @media only screen and (width <= 1080px) {
     .hero-body {
       flex-direction: column;
       justify-content: flex-end;
@@ -185,12 +185,12 @@
     }
   }
 
-  @media only screen and (max-height <= 1000px) {
-    h1 {
-      --font-size: 2.2rem;
+  @media only screen and (height <= 1080px) {
+    .desc h1 {
+      --font-size: 2.5rem;
     }
-    
-    .desc {
+
+    .subtext {
       --font-size: 0.9rem;
     }
   }

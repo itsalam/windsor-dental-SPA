@@ -1,5 +1,6 @@
 <script lang="ts">
   import { tweened } from "svelte/motion";
+  import BookingModal from "./components/Booking/BookingModal.svelte";
   import Canvas from "./components/Canvas.svelte";
   import Toolbar from "./components/Toolbar.svelte";
   import Faq from "./pages/FAQ/FAQ.svelte";
@@ -12,20 +13,18 @@
   import TeamGroup from "./pages/Team/threejs/TeamGroup.svelte";
   import { sanity } from "./store/client";
 
-
   let getAssetSrc: (arg: string) => string;
   let progress = tweened(0, { duration: 400 });
   sanity.subscribe((value) => {
     getAssetSrc = value.getAssetSrc;
     setTimeout(() => {
       progress.set(value.progress);
-    
     }, 200);
   });
 
   let innerWidth: number;
   let innerHeight: number;
-  $: isWide = innerWidth > 992
+  $: isWide = innerWidth > 1080;
 
   const loadPromise = Promise.all([
     new Promise((r) => setTimeout(r, 1000)),
@@ -42,7 +41,7 @@
 {#await loadPromise}
   <main class="loading">
     <progress value={$progress} max="1" />
-    <h1 class="loading-title">{Math.trunc($progress*100)}%</h1>
+    <h1 class="loading-title">{Math.trunc($progress * 100)}%</h1>
   </main>
 {:then}
   <Toolbar />
@@ -51,30 +50,30 @@
     <Services />
     <Team />
     <Faq />
-    <Canvas> 
+    <Canvas {isWide}>
       <HeroGroup {getAssetSrc} {isWide} />
       <ServiceGroup {getAssetSrc} />
       <TeamGroup {getAssetSrc} />
     </Canvas>
     <Footer />
   </main>
+  <BookingModal />
 {/await}
 
 <style>
-
   .loading {
-    height:100vh;
+    height: 100vh;
   }
-  
-.loading-title {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  opacity: 0.75;
-  transform: translate(-50%, -50%);
-}
 
-progress {
+  .loading-title {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0.75;
+    transform: translate(-50%, -50%);
+  }
+
+  progress {
     position: absolute;
     height: 2px;
     padding: 0;

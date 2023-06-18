@@ -1,9 +1,5 @@
 <script lang="ts">
-  import {
-    HTML,
-    interactivity,
-    transitions
-  } from "@threlte/extras";
+  import { HTML, interactivity, transitions } from "@threlte/extras";
   import Svg from "~/components/Svg.svelte";
 
   interactivity();
@@ -12,10 +8,13 @@
   const HALFTONE_SCALE = 1.75;
 
   export let getAssetSrc: (arg: string) => string;
-  
+
   let halftoneSvg: string;
 
-  const halfTonesPosArr:[x: number, y: number, z: number][] = [[-9.5, -4, -20], [-19, 3.5, -20]]
+  const halfTonesPosArr: [x: number, y: number, z: number][] = [
+    [-15.5, -4, -20],
+    [-25, 3.5, -20],
+  ];
 
   halftoneSvg = getAssetSrc("halftone");
 </script>
@@ -30,9 +29,6 @@
     <Svg src={halftoneSvg} class="halftoneSvg" />
   </HTML>
 {/each}
-<HTML class="backdrop"
-  position={[-20, -3, -5]}
-  transform
-  scale={4}>
+<HTML class="backdrop" position={[-20, -3, -5]} transform scale={4}>
   <Svg class="service-backdrop-svg" src={getAssetSrc("backdrop-team")} />
 </HTML>

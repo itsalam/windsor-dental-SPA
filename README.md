@@ -52,7 +52,8 @@ export default writable(0);
 
 ## TODO LIST
 
-2. Fade in stylings
-3. Hover interactivity
-4. Nav bar wiring
-5. Different assets for mobile view
+1. Fade in stylings
+2. Fix the ugly ass team page ):
+3. Mobile menu
+4. booking modal form
+5. add stuff on faq page, shift to left;

@@ -5,8 +5,7 @@
   import ScrollContainer from "~/components/ScrollContainer.svelte";
   import { sanity, type ServiceInfo } from "../../store/client";
 
-  let servicesInfo: ServiceInfo[],
-    getSrc: (src: SanityImageSource) => string;
+  let servicesInfo: ServiceInfo[], getSrc: (src: SanityImageSource) => string;
   let cards: Element[];
   let titleElem: Element;
   let topOffset = 0;
@@ -36,10 +35,7 @@
       {topOffset}
     >
       {#each servicesInfo as serviceInfo, i}
-        <Card
-          class="service-card glass"
-          bind:cardElem={cards[i]}
-        >
+        <Card class="service-card glass" bind:cardElem={cards[i]}>
           <InfoAccordian
             iconSrc={getSrc(serviceInfo.thumbnail)}
             name={serviceInfo.name}
@@ -56,11 +52,6 @@
     position: relative;
   }
 
-  :global(.service-card) {
-    padding: 0;
-    margin: 1rem;
-  }
-
   :global(.services-container) {
     right: 0;
     display: flex;
@@ -70,10 +61,9 @@
     max-width: 960px;
   }
 
-@media only screen and (width <= 900px) {
-  :global(.services-container) {
-    width: 100%;
+  @media only screen and (width <= 1080px) {
+    :global(.services-container) {
+      width: 100%;
+    }
   }
-
-}
 </style>

@@ -11,8 +11,7 @@
     top: 0;
     left: 0%;
     z-index: -1;
-    min-width: 45vw;
+    min-width: 60vw;
     height: 100vh;
   }
-
 </style>

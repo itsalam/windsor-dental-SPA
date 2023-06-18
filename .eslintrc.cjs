@@ -29,7 +29,7 @@ module.exports = {
     "no-unused-vars": "off",
     "@typescript-eslint/no-unused-vars": ["error"],
     "svelte/html-closing-bracket-spacing": 1,
-    "svelte/html-quotes": 1,
+    "svelte/html-quotes": "off",
     "svelte/html-self-closing": 1,
     "svelte/indent": 1,
   },

@@ -1,5 +1,3 @@
-
-
 <script lang="ts">
   import { onMount } from "svelte";
 
@@ -7,8 +5,7 @@
   export let topElement: Element;
   export let elements: Element[];
 
-  onMount(() => {
-  });
+  onMount(() => {});
 
   const handleScroll = () => {
     const topOffset = topElement.getBoundingClientRect().bottom;
@@ -37,8 +34,6 @@
 
 <svelte:window on:scroll={handleScroll} bind:innerHeight />
 
-<div
-  class={`scroll-container ${$$props.class}`}
->
+<div class={`scroll-container ${$$props.class}`}>
   <slot />
 </div>

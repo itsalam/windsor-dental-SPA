@@ -1,40 +1,56 @@
 <script lang="ts">
+  import BookingButton from "./Booking/BookingButton.svelte";
+
   let innerWidth: number;
   let active = false;
   const toggleMenu = () => {
     active = !active;
   };
 
-  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener("click", function (e) {
       e.preventDefault();
 
-      document.querySelector(this.getAttribute('href')).scrollIntoView({
-        behavior: 'smooth'
+      document.querySelector(this.getAttribute("href")).scrollIntoView({
+        behavior: "smooth",
       });
     });
   });
 
+  let isScrolling = false;
+
+  const handleScroll = () => {
+    isScrolling = true;
+    setTimeout(() => {
+      isScrolling = false;
+    }, 1000);
+  };
+
+  const handleMenuClick = () => {
+    active = false;
+  };
 </script>
 
-<svelte:window bind:innerWidth />
+<svelte:window bind:innerWidth on:scroll={handleScroll} />
 
-<nav class="toolbar glass"  class:mobile={innerWidth < 992}>
+<nav
+  class="toolbar glass"
+  class:scrolling={isScrolling}
+  class:mobile={innerWidth < 992}
+>
   <h2>Windsor Dental Clinic</h2>
   <ul class="menu" class:active>
-    <li><a href="#home"> Home </a></li>
-    <li><a href="#services"> Services </a></li>
-    <li><a href="#team"> Team </a></li>
-    <li><a href="#faqs"> FAQs </a></li>
-    <button class="book-button glass"> Book Online </button>
+    <li><a href="#home" on:click={handleMenuClick}> Home </a></li>
+    <li><a href="#services" on:click={handleMenuClick}> Services </a></li>
+    <li><a href="#team" on:click={handleMenuClick}> Team </a></li>
+    <li><a href="#faqs" on:click={handleMenuClick}> FAQs </a></li>
+    <BookingButton />
   </ul>
   <button class="menu-button" class:active on:click={toggleMenu}>
     <span />
     <span />
   </button>
 </nav>
-
-
 
 <style>
   .toolbar {
@@ -47,17 +63,14 @@
     justify-content: space-between;
     width: 100%;
     padding: 0.5rem 2rem;
-    color: #fff;
-    background: rgb(255 255 255 / 71.2%);
+    background: rgba(255, 255, 255, 0.63);
     border-radius: inherit;
-    box-shadow: 0 0 #0000, 0 0 #0000,0 1px 2px 0 #0000000d;
+    box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 2px 0 #0000000d;
+    transition: background 0.5s ease;
   }
 
-  .toolbar .book-button {
-    padding: var(--form-element-spacing-vertical)
-      var(--form-element-spacing-horizontal);
-    margin-left: 1rem;
-    font-size: calc(0.80 * var(--font-size));
+  .scrolling {
+    background: transparent;
   }
 
   .menu {
@@ -103,6 +116,7 @@
     cursor: pointer;
     background: transparent;
     border: none;
+    margin: 0;
   }
 
   .menu-button:focus {
@@ -160,7 +174,6 @@
   }
 
   li:hover {
-    filter:brightness(1.5);
+    filter: brightness(1.5);
   }
-
 </style>

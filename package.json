@@ -8,7 +8,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
-    "lint:css": "stylelint **/*.{css,scss,svelte}"
+    "lint:css": "stylelint **/*.{css,scss,svelte}",
+    "format": "prettier --write --plugin-search-dir=. ./**/*.html"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.3",
@@ -21,6 +22,8 @@
     "eslint": "^8.41.0",
     "eslint-plugin-svelte": "^2.29.0",
     "postcss-html": "^1.5.0",
+    "prettier": "^2.8.8",
+    "prettier-plugin-svelte": "^2.10.1",
     "stylelint": "^15.8.0",
     "stylelint-config-recess-order": "^4.2.0",
     "stylelint-config-standard": "^33.0.0",
@@ -39,6 +42,7 @@
     "@sanity/client": "^6.1.2",
     "@sanity/image-url": "^1.0.2",
     "@sanity/types": "^3.12.0",
+    "firebase": "^9.22.2",
     "path": "^0.12.7",
     "simplex-noise": "^4.0.1",
     "three.meshline": "^1.4.0"
