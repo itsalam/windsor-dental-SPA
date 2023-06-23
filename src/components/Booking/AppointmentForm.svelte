@@ -4,8 +4,8 @@
   import { writeDay, writeHours } from "~/utils/helper";
   import Radio from "../Radio.svelte";
 
-  const BREAKPOINT = 575;
   let innerWidth: number;
+  let innerHeight: number;
   let form: Element;
   let inputs: HTMLInputElement[];
   let currDay: { day: string; range: Hours };
@@ -16,6 +16,8 @@
 
   export let hours: [string, Hours][];
   export let isValid = true;
+
+  $: isPortrait = innerWidth < innerHeight;
 
   const validateInputs = () => {
     isValid = inputs !== undefined && inputs.every((i) => i.validity.valid);
@@ -49,7 +51,7 @@
   });
 </script>
 
-<svelte:window bind:innerWidth />
+<svelte:window bind:innerWidth bind:innerHeight />
 
 <div bind:this={form} class="form">
   <h5>Appointment Info</h5>
@@ -82,8 +84,8 @@
           disabled={range.closed}
           on:click={() => (currDay = { day, range })}
         >
-          <p>{writeDay(day)}</p>
-          {#if innerWidth > BREAKPOINT}
+          <p>{writeDay(day).slice(0, isPortrait ? 2 : 3)}</p>
+          {#if !isPortrait}
             {#if range.closed}
               <small class="closed-icon after" />
             {:else}
@@ -264,8 +266,12 @@
     background-size: auto 0.75rem;
   }
 
-  @media only screen and (width <= 575px) {
+  @media (orientation: portrait) {
     .dates {
+      --form-element-spacing-horizontal: 0.5rem;
+    }
+
+    .appointment {
       --form-element-spacing-horizontal: 0.5rem;
     }
   }

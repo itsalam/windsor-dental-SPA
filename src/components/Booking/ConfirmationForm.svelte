@@ -91,4 +91,16 @@
     white-space: nowrap;
     cursor: initial;
   }
+
+  @media (orientation: portrait) {
+    .form {
+      gap: 1rem;
+    }
+
+    .flex {
+      flex-flow: row wrap;
+      row-gap: 0.25rem;
+      padding: 0.375rem 0;
+    }
+  }
 </style>

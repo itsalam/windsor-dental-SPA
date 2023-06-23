@@ -2,7 +2,7 @@
   import { toggleModal } from "~/utils/modal";
 </script>
 
-<button class="book-button glass" on:mousedown={toggleModal()}>
+<button class="book-button glass" on:click={toggleModal()}>
   Request Online
 </button>
 

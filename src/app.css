@@ -40,7 +40,8 @@ html {
 }
 
 .glass {
-  background: rgba(255, 255, 255, 0.533);
+  --glass-background-color: rgba(255, 255, 255, 0.533);
+  background: var(--glass-background-color);
   border-radius: var(--border-radius);
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.9px);
@@ -52,7 +53,7 @@ html {
   font-size: calc(0.85 * var(--font-size));
   padding: calc(1.33 * var(--form-element-spacing-vertical))
     calc(1.33 * var(--form-element-spacing-horizontal));
-  max-width: 210px;
+  max-width: 10rem;
 }
 
 button,
@@ -76,7 +77,7 @@ button {
 }
 
 p {
-  line-height: 1.66;
+  line-height: 1.33;
 }
 
 body {
@@ -90,7 +91,7 @@ main {
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 20vh;
+  gap: 20svh;
 }
 
 h1 {
@@ -107,7 +108,7 @@ h1 {
 .page-container {
   display: flex;
   flex-direction: column;
-  padding: 15vh 20vw 15vh;
+  padding: 15svh 20vw 15svh;
 }
 
 .halftoneSvg {
@@ -117,22 +118,34 @@ h1 {
   z-index: -1;
 }
 
-@media only screen and (max-width: 1080px) {
+@media (max-width: 1080px) {
   .page-container {
     padding: 5%;
     padding-top: 20%;
   }
 }
 
-@media only screen and (max-width: 1366px) {
-  .page-container {
-    padding: 10% 5%;
-  }
-}
-
-@media only screen and (max-height: 760px) {
+@media (max-height: 760px) {
   .page-container {
     padding: 5%;
     padding-top: 10%;
+  }
+}
+
+@media (orientation: portrait) {
+  .glass {
+    --glass-background-color: rgb(255 255 255 / 95%);
+  }
+
+  .page-container {
+    padding: 1rem 0.5rem;
+  }
+
+  body {
+    min-height: 100svh;
+    min-height: -webkit-fill-available;
+  }
+  html {
+    height: -webkit-fill-available;
   }
 }

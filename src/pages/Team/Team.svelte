@@ -12,7 +12,7 @@
     damping: 1,
   });
 
-  const randomImgSrc = "https://source.unsplash.com/random/?dentist,staff";
+  const randomImgSrc = "https://source.unsplash.com/random/?dental,clinic";
 
   sanity.subscribe((value) => {
     teamInfo = value.teamInfo;
@@ -31,8 +31,16 @@
 
   const moveCarousel = (e: MouseEvent) => {
     const carouselRect = carousel.getBoundingClientRect();
-    const trackRect = track.getBoundingClientRect();
-    const maxTranslate = trackRect.width - carouselRect.width;
+    const trackWidth = Object.values(track.childNodes).reduce(
+      (total, i) => total + (i as HTMLElement).offsetWidth,
+      0
+    );
+    const maxTranslate = trackWidth - carouselRect.width;
+    console.log(
+      track.offsetWidth,
+      track.getBoundingClientRect().width,
+      maxTranslate
+    );
     coords.set(
       Math.min(Math.max($coords + e.movementX * maxTranslate, -maxTranslate), 0)
     );
@@ -65,12 +73,13 @@
           >
             {#each Array(5)
               .fill(null)
-              .map((_, i) => i + 1) as i}
+              .map((_, i) => i + 1) as _, i}
               <img
                 class="service-backdrop-svg"
                 src={`${randomImgSrc}?sig=${i}`}
                 alt="Staff at the dental clinic"
                 on:mouseover={imageHover}
+                on:focus={() => {}}
               />
             {/each}
           </div>
@@ -82,7 +91,7 @@
 
 <style>
   #team {
-    height: 100vh;
+    height: 100svh;
   }
 
   .title {
@@ -125,6 +134,7 @@
   }
 
   .carousel {
+    position: relative;
     display: flex;
     width: 100%;
     height: 30%;
@@ -140,18 +150,17 @@
     height: 100%;
     pointer-events: none;
     content: "";
-    background: linear-gradient(-90deg, rgb(255 255 255) 0%, transparent 15%);
+    background: linear-gradient(-90deg, rgb(255 255 255) 10%, transparent 25%);
   }
 
   .track {
     display: flex;
-    gap: 1rem;
     justify-content: space-between;
-    min-width: 140%;
     height: 100%;
   }
 
   .track img {
+    padding: 0.5rem;
     transition: all 150ms;
   }
 
@@ -159,12 +168,35 @@
     filter: brightness(1.1);
   }
 
-  @media only screen and (width <= 1080px) {
+  @media (orientation: portrait) {
+    #team {
+      padding-top: 2rem;
+    }
+
     :global(.team-card) {
       flex-direction: column;
       align-items: center;
+      max-height: fill-available;
     }
 
+    .display {
+      width: 100%;
+      max-height: 33%;
+      padding: 0.5rem;
+      border-radius: var(--border-radius);
+    }
+
+    .description {
+      overflow: hidden;
+    }
+
+    .carousel {
+      min-height: 20%;
+      margin-top: 0;
+    }
+  }
+
+  @media (width <= 1080px) {
     .description {
       justify-items: flex-start;
     }

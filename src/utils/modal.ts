@@ -12,13 +12,32 @@ const isModalOpen = (modal: HTMLDialogElement) => {
     : false;
 };
 
+function preventScroll(e: MouseEvent) {
+  e.preventDefault();
+  e.stopPropagation();
+  return false;
+}
+
+function clickListener(e: MouseEvent) {
+  const clickedElem = e.target as HTMLElement;
+  if (clickedElem.id === "modal" && e.target instanceof HTMLDialogElement) {
+    closeModal(e.target);
+    document.removeEventListener("click", clickListener);
+  }
+}
+
 const openModal = (modal: HTMLDialogElement) => {
   modal.setAttribute("open", "true");
+  console.log("woo");
+  document.addEventListener("wheel", preventScroll, { passive: false });
+  document.addEventListener("click", clickListener);
 };
 
 // Close modal
 const closeModal = (modal: HTMLDialogElement) => {
   modal.removeAttribute("open");
+  console.log("not woo");
+  document.removeEventListener("wheel", preventScroll);
 };
 
 export const addEscKey = (modal: HTMLDialogElement) =>

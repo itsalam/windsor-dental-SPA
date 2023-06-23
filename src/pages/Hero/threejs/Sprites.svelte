@@ -80,13 +80,13 @@
           {...sparkleMesh}
           position={getStarPos([position.x, position.y, 1], 2)}
           scale={degToRad(Math.sin(dn / 700 + i * 900))}
-          transition={fade({ delay: 7050, duration: 600 })}
+          transition={fade({ delay: 7050, duration: 350 })}
         />
         <T.Mesh
           {...sparkleMesh}
           position={getStarPos([position.x, position.y, 1], 3)}
           scale={degToRad(Math.sin(dn / 700 + i * 1300))}
-          transition={fade({ delay: 7050, duration: 600 })}
+          transition={fade({ delay: 7050, duration: 350 })}
         />
       {/each}
       {#each lineSpriteMeshs as spriteMesh}
@@ -94,7 +94,7 @@
           {...spriteMesh}
           position={[position.x, position.y, 0]}
           rotation={[0, 0, spriteRotations[i]]}
-          transition={fade({ delay: 2050, duration: 600 })}
+          transition={fade({ delay: 1050, duration: 350 })}
           on:pointerover={onSpritePointerOver}
         />
       {/each}
@@ -106,7 +106,7 @@
         {...spriteMesh}
         position={[spritePoint.x, spritePoint.y, 0.5]}
         rotation={[0, degToRad(180), 0]}
-        in={fade({ delay: 2050, duration: 600 })}
+        in={fade({ delay: 1050, duration: 350 })}
       />
     {/each}
   </T.Group>

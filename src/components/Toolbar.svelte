@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { fade } from "svelte/transition";
   import BookingButton from "./Booking/BookingButton.svelte";
 
   let innerWidth: number;
@@ -37,9 +38,10 @@
   class="toolbar glass"
   class:scrolling={isScrolling}
   class:mobile={innerWidth < 992}
+  transition:fade={{ delay: 1550, duration: 350 }}
 >
   <h2>Windsor Dental Clinic</h2>
-  <ul class="menu" class:active>
+  <ul class="menu" class:active class:glass={active}>
     <li><a href="#home" on:click={handleMenuClick}> Home </a></li>
     <li><a href="#services" on:click={handleMenuClick}> Services </a></li>
     <li><a href="#team" on:click={handleMenuClick}> Team </a></li>
@@ -92,7 +94,7 @@
     gap: 0;
     justify-content: center;
     width: 100vw;
-    height: 100vh;
+    height: 100svh;
     visibility: hidden;
     background-color: white;
     opacity: 0;
@@ -101,6 +103,10 @@
   .mobile .menu.active {
     visibility: visible;
     opacity: 1;
+  }
+
+  .menu :global(.book-button) {
+    max-width: 17rem;
   }
 
   .menu-button {

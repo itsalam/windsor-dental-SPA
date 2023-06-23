@@ -22,15 +22,15 @@
 {#await sanity then}
   <div
     class="hero-body page-container"
-    transition:fade={{ delay: 0, duration: 600 }}
+    transition:fade={{ delay: 0, duration: 650 }}
     id="home"
   >
     <div class="desc">
       <h1>{heroInfo.greeting}</h1>
-      <p class="subtext" transition:fade={{ delay: 2050, duration: 600 }}>
+      <p class="subtext" transition:fade={{ delay: 1550, duration: 350 }}>
         {heroInfo.subtext}
       </p>
-      <div class="hero-footer" transition:fade={{ delay: 2050, duration: 600 }}>
+      <div class="hero-footer" transition:fade={{ delay: 1550, duration: 350 }}>
         <div class="details glass">
           {#each contactInfo as info}
             <div class="contact-item" class:break-text={info.breakText}>
@@ -54,7 +54,7 @@
   .hero-body {
     flex-direction: row;
     justify-content: end;
-    height: 100vh;
+    height: 100svh;
   }
 
   .hero-footer {
@@ -81,7 +81,6 @@
     --block-spacing-vertical: 0.5rem;
     display: flex;
     flex-flow: row wrap;
-    gap: 0.125rem;
     padding: 0.5rem;
   }
 
@@ -119,7 +118,7 @@
 
   .border .line {
     flex-basis: 100%;
-    max-width: 210px;
+    max-width: 10rem;
     height: 1px;
     margin: auto 0;
     background-color: var(--primary);
@@ -145,27 +144,30 @@
     width: 100%;
   }
 
-  @media only screen and (width <= 1080px) {
+  @media (orientation: portrait) {
+    h1 {
+      --font-size: 2.4rem;
+    }
+
+    .desc h1 {
+      --font-size: 2.4rem;
+
+      margin-bottom: auto;
+    }
+
+    .details {
+      --block-spacing-vertical: 0.25rem;
+      padding: 0.25rem;
+    }
+
     .hero-body {
       flex-direction: column;
       justify-content: flex-end;
       padding: 5%;
     }
 
-    .desc {
-      gap: 0.5rem;
-      justify-content: end;
-      width: 100%;
-      min-width: 0;
-    }
-
-    .hero-footer {
-      gap: 0.5rem;
-      padding: 0;
-    }
-
-    h1 {
-      --font-size: 2.4rem;
+    .subtext {
+      --font-size: 0.8rem;
     }
 
     .contact-item {
@@ -174,26 +176,25 @@
       padding: 0.5rem;
     }
 
-    :global(.contact-svg, .contact-svg svg) {
-      width: 24px;
-      height: 24px;
-    }
-  }
-
-  @media only screen and (height <= 1080px) {
-    .desc h1 {
-      --font-size: 2.5rem;
-    }
-
-    .subtext {
-      --font-size: 0.9rem;
-    }
-  }
-
-  @media only screen and (width <= 572px) {
     .desc {
+      flex-basis: 100%;
+      gap: 1rem;
+      justify-content: end;
+      width: 100%;
       min-width: 0;
-      max-width: 95vw;
+      padding-top: 4rem;
+      padding-bottom: 1rem;
+    }
+
+    .hero-footer {
+      gap: 0.5rem;
+      align-self: center;
+      padding: 0;
+    }
+
+    :global(.contact-svg, .contact-svg svg) {
+      width: 1rem;
+      height: 1rem;
     }
   }
 </style>

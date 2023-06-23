@@ -24,7 +24,7 @@
 
   let innerWidth: number;
   let innerHeight: number;
-  $: isWide = innerWidth > 1080;
+  $: isWide = innerWidth > innerHeight;
 
   const loadPromise = Promise.all([
     new Promise((r) => setTimeout(r, 1000)),

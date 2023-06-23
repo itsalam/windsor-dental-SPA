@@ -57,7 +57,7 @@
     padding: 0;
   }
 
-  @media only screen and (width <= 1080px) {
+  @media (orientation: portrait) {
     :global(.faq-container) {
       flex-direction: column;
       gap: 0;

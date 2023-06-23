@@ -61,7 +61,13 @@
     max-width: 960px;
   }
 
-  @media only screen and (width <= 1080px) {
+  @media (orientation: portrait) {
+    :global(.services-container) {
+      width: 100%;
+    }
+  }
+
+  @media (width <= 1080px) {
     :global(.services-container) {
       width: 100%;
     }

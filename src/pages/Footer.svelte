@@ -76,8 +76,10 @@
     position: relative;
     display: flex;
     flex-direction: column;
+    width: 100%;
     padding: 2rem 4rem;
     margin: auto 0;
+    overflow: hidden;
     background-color: rgb(243 244 246/ 100%);
   }
 
@@ -155,5 +157,39 @@
 
   button svg {
     width: 18px;
+  }
+
+  @media (orientation: portrait) {
+    footer {
+      padding: 1rem;
+    }
+
+    .body {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .info {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .hours {
+      width: 50%;
+    }
+
+    .nav {
+      position: initial;
+    }
+
+    .up-nav {
+      top: 50%;
+      right: 4rem;
+      transform: translateY(-50%);
+    }
+
+    .menu {
+      padding: 2rem;
+    }
   }
 </style>

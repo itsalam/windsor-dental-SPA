@@ -53,8 +53,6 @@ export default writable(0);
 ## TODO LIST
 
 1. Fade in stylings
-2. Fix the ugly ass team page ):
-3. Mobile menu
-4. booking modal form backend func
-5. add stuff on faq page, shift to left;
-6. Fix Footer
+2. booking modal form backend func
+3. Fix the masking problem on mobile
+4. add stuff on faq page, shift to left;

@@ -248,10 +248,17 @@
     margin-top: 1rem;
   }
 
-  @media only screen and (width <= 575px) {
+  @media (width <= 575px) {
     dialog,
     form {
       width: 100%;
+    }
+  }
+
+  @media (orientation: portrait) {
+    article {
+      width: 100%;
+      max-width: 100vw;
     }
   }
 </style>
