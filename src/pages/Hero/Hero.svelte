@@ -66,11 +66,6 @@
     width: 100%;
   }
 
-  .hero-footer button {
-    max-width: 210px;
-    max-height: 60px;
-  }
-
   .desc {
     display: flex;
 
@@ -192,6 +187,13 @@
 
     .subtext {
       --font-size: 0.9rem;
+    }
+  }
+
+  @media only screen and (width <= 572px) {
+    .desc {
+      min-width: 0;
+      max-width: 95vw;
     }
   }
 </style>

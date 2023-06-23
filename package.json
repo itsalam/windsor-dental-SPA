@@ -9,7 +9,7 @@
     "preview": "vite preview",
     "check": "svelte-check --tsconfig ./tsconfig.json",
     "lint:css": "stylelint **/*.{css,scss,svelte}",
-    "format": "prettier --write --plugin-search-dir=. ./**/*.html"
+    "format": "prettier --write --plugin-search-dir=. ./**/*.svelte"
   },
   "devDependencies": {
     "@sveltejs/vite-plugin-svelte": "^2.0.3",

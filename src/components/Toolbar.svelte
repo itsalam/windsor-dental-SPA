@@ -63,7 +63,7 @@
     justify-content: space-between;
     width: 100%;
     padding: 0.5rem 2rem;
-    background: rgba(255, 255, 255, 0.63);
+    background: rgb(255 255 255 / 63%);
     border-radius: inherit;
     box-shadow: 0 0 #0000, 0 0 #0000, 0 1px 2px 0 #0000000d;
     transition: background 0.5s ease;
@@ -113,10 +113,10 @@
     width: 22px;
     height: 13px;
     padding: 0;
+    margin: 0;
     cursor: pointer;
     background: transparent;
     border: none;
-    margin: 0;
   }
 
   .menu-button:focus {

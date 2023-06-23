@@ -9,11 +9,11 @@
   import Stepper from "./Stepper.svelte";
 
   let hours: [string, Hours][];
-  let modal;
-  let forms;
-  let innerWidth;
+  let modal: HTMLDialogElement;
+  let forms: HTMLDivElement;
+  let innerWidth: number;
   let currFormIdx = 0;
-  let formData;
+  let formData: FormData;
   $: validForms = [];
 
   onMount(() => {
@@ -23,7 +23,7 @@
   const submitForm = (e: SubmitEvent) => {
     e.preventDefault();
     console.log(e);
-    for (var [key, value] of formData.entries()) { 
+    for (var [key, value] of formData.entries()) {
       console.log(key, value);
     }
   };
@@ -33,15 +33,17 @@
   });
 
   $: if (forms) {
-    formData = new FormData(modal.querySelector("form") as HTMLFormElement)
-    console.log(formData)
-    forms.style.setProperty("--curent-page", currFormIdx);
+    formData = new FormData(modal.querySelector("form") as HTMLFormElement);
+    console.log(formData);
+    forms.style.setProperty("--curent-page", `${currFormIdx}`);
   }
+
+  // ADD EXIT ON CLICKOUTSIDE LISTENR
 </script>
 
 <svelte:window bind:innerWidth />
 
-<dialog id="modal" bind:this={modal} open={true}>
+<dialog id="modal" bind:this={modal}>
   <form on:submit={submitForm}>
     <article>
       <a
@@ -56,19 +58,25 @@
         <div class="forms-track">
           <GeneralForm bind:isValid={validForms[0]} />
           <AppointmentForm bind:isValid={validForms[1]} {hours} />
-          <CommentsForm bind:isValid={validForms[2]} {formData} isFormComplete={validForms.every(v => v)} />
+          <CommentsForm
+            bind:isValid={validForms[2]}
+            {formData}
+            isFormComplete={validForms.every((v) => v)}
+          />
         </div>
       </div>
 
       <footer>
         <Stepper steps={validForms} currStep={currFormIdx} />
         {#if currFormIdx === 0}
-          <button
-            class="cancel secondary"
-            on:click={toggleModal(modal)}>Cancel</button
+          <button class="cancel secondary" on:click={toggleModal(modal)}
+            >Cancel</button
           >
         {:else}
-          <button class="back secondary before" on:click={() => (currFormIdx -= 1)} />
+          <button
+            class="back secondary before"
+            on:click={() => (currFormIdx -= 1)}
+          />
         {/if}
         {#if currFormIdx === validForms.length - 1}
           <button
@@ -114,12 +122,12 @@
   }
 
   .forms-track {
+    display: flex;
+    gap: var(--block-spacing-vertical);
+    transition: all 0.3s ease-in-out;
     transform: translateX(
       calc(-1 * var(--curent-page) * (100% + var(--block-spacing-vertical)))
     );
-    gap: var(--block-spacing-vertical);
-    display: flex;
-    transition: all 0.3s ease-in-out;
   }
 
   :global(.form) {
@@ -142,8 +150,8 @@
   :global(.flex) {
     display: flex;
     gap: 1rem;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
   }
 
   .secondary {
@@ -154,39 +162,37 @@
     position: relative;
   }
 
-  :global(.after)::after, :global(.before)::before {
-    content: "";
+  :global(.after)::after,
+  :global(.before)::before {
     width: 1rem;
     height: 1rem;
+    content: "";
+    background-repeat: no-repeat;
     background-position: center;
     background-size: auto 1rem;
-    background-repeat: no-repeat;
   }
 
   .back::before {
-    content: "";
     position: absolute;
     top: 25%;
     left: 25%;
     width: 1rem;
     height: 1rem;
+    content: "";
+    background-image: var(--icon-chevron-button);
+    background-repeat: no-repeat;
     background-position: center;
     background-size: auto 1rem;
-    background-repeat: no-repeat;
-  }
-
-  .back::before {
-    background-image: var(--icon-chevron-button);
     transform: rotate(90deg);
   }
 
   .main {
     position: relative;
-    width: min-content;
     display: flex;
     gap: 0.25rem;
     align-items: center;
     justify-items: center;
+    width: min-content;
   }
 
   .confirm::after {
@@ -211,19 +217,19 @@
 
   :global(.checkbox-label) {
     display: flex;
-    align-items: center;
     gap: 0.25rem;
+    align-items: center;
   }
 
   :global(.chip) {
     --font-size: 0.85rem;
-    
-    width: min-content;
-    margin-bottom: 0;
     display: flex;
     gap: 0.25rem;
     align-items: center;
+
+    width: min-content;
     padding: 0.25rem 0.75rem;
+    margin-bottom: 0;
     font-size: var(--font-size);
     color: white;
     cursor: pointer;
@@ -243,7 +249,8 @@
   }
 
   @media only screen and (width <= 575px) {
-    dialog, form {
+    dialog,
+    form {
       width: 100%;
     }
   }

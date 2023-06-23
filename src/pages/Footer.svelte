@@ -114,8 +114,8 @@
   }
 
   .hours p {
-    white-space: nowrap;
     font-size: calc(0.75 * var(--font-size));
+    white-space: nowrap;
   }
 
   .nav {

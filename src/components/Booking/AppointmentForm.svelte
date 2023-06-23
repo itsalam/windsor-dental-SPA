@@ -5,13 +5,13 @@
   import Radio from "../Radio.svelte";
 
   const BREAKPOINT = 575;
-  let innerWidth;
+  let innerWidth: number;
   let form: Element;
   let inputs: HTMLInputElement[];
-  let currDay: {day:string, range:Hours};
+  let currDay: { day: string; range: Hours };
   let fromInput: HTMLInputElement;
   let toInput: HTMLInputElement;
-  let availbilties: {day:string, range:Hours}[]= [];
+  let availbilties: { day: string; range: Hours }[] = [];
   let validRange: boolean;
 
   export let hours: [string, Hours][];
@@ -22,16 +22,20 @@
     isValid = isValid && availbilties.length > 0;
     if (!fromInput?.disabled && !toInput?.disabled) {
       validRange = fromInput.value < toInput.value;
-      validRange = validRange && fromInput.validity.valid && toInput.validity.valid;
+      validRange =
+        validRange && fromInput.validity.valid && toInput.validity.valid;
     } else {
       validRange = false;
     }
   };
 
   const handleAddDate = () => {
-    availbilties.push({day: currDay.day, range: {from: fromInput.value, to: toInput.value}});
+    availbilties.push({
+      day: currDay.day,
+      range: { from: fromInput.value, to: toInput.value },
+    });
     availbilties = availbilties;
-  }
+  };
 
   afterUpdate(() => {
     if (form) {
@@ -49,15 +53,15 @@
 
 <div bind:this={form} class="form">
   <h5>Appointment Info</h5>
-  
+
   <div class="appointment flex">
-    <Radio 
+    <Radio
       title="Type of Appointment"
-      name="appointment" 
-      inputs={["routine", "consult"]} 
+      name="appointment"
+      inputs={["routine", "consult"]}
       inputLabels={["Routine Cleaning/Exam", "Service Consultation"]}
       on:update={validateInputs}
-    /> 
+    />
     <label for="terms" class="checkbox-label">
       <input type="checkbox" id="reoccuring" name="reoccuring" />
       <div>
@@ -76,7 +80,7 @@
           class:active={currDay?.day === day}
           type="button"
           disabled={range.closed}
-          on:click={() => currDay = {day, range}}
+          on:click={() => (currDay = { day, range })}
         >
           <p>{writeDay(day)}</p>
           {#if innerWidth > BREAKPOINT}
@@ -90,68 +94,81 @@
       {/each}
     </div>
   </label>
-  
+
   <div class="times flex">
     <label>
       <h6>From</h6>
-      <input 
-        type="time" 
-        min={currDay ? `${currDay.range.from}:00` : null} 
-        max={toInput?.value ? toInput.value : currDay ? `${currDay.range.to}:00` : null} 
-        disabled={!currDay} 
+      <input
+        type="time"
+        min={currDay ? `${currDay.range.from}:00` : null}
+        max={toInput?.value
+          ? toInput.value
+          : currDay
+          ? `${currDay.range.to}:00`
+          : null}
+        disabled={!currDay}
         bind:this={fromInput}
       />
     </label>
     <label>
       <h6>To</h6>
-      <input 
-        type="time" 
-        min={fromInput?.value ? fromInput.value : currDay ? `${currDay.range.from}:00` : null} 
-        max={currDay ? `${currDay.range.to}:00` : null} 
-        disabled={!currDay} 
+      <input
+        type="time"
+        min={fromInput?.value
+          ? fromInput.value
+          : currDay
+          ? `${currDay.range.from}:00`
+          : null}
+        max={currDay ? `${currDay.range.to}:00` : null}
+        disabled={!currDay}
         bind:this={toInput}
       />
     </label>
     <button
       class="add secondary after"
       type="button"
-      disabled={!validRange} 
-      on:click={handleAddDate} 
+      disabled={!validRange}
+      on:click={handleAddDate}
     />
   </div>
   <h6>Availbilties Picked:</h6>
   <fieldset>
     <div class="times flex">
       {#each availbilties as availbility, i}
-        <button 
+        <button
           class={`chip after`}
-          type="button" 
-          on:click={() => availbilties = availbilties.toSpliced(i, 1)}>
-          {writeDay(availbility.day)} {writeHours(availbility.range, false)}
+          type="button"
+          on:click={() => (availbilties = availbilties.toSpliced(i, 1))}
+        >
+          {writeDay(availbility.day)}
+          {writeHours(availbility.range, false)}
         </button>
       {/each}
-      <input type="hidden" name="availbilties" value={JSON.stringify(availbilties)} />
+      <input
+        type="hidden"
+        name="availbilties"
+        value={JSON.stringify(availbilties)}
+      />
     </div>
   </fieldset>
 </div>
 
 <style>
-
   .flex {
-    margin-bottom: calc(.5 * var(--spacing));
+    margin-bottom: calc(0.5 * var(--spacing));
   }
 
   .appointment {
     flex-direction: column;
-    align-items: flex-start;
     gap: 0.125rem;
+    align-items: flex-start;
     margin-bottom: var(--spacing);
   }
 
   .appointment :global(fieldset) {
     margin-bottom: 0;
   }
-  
+
   .dates {
     --form-element-spacing-horizontal: 0.8rem;
     gap: 2px;
@@ -163,10 +180,10 @@
   }
 
   .dates .active {
-    filter:brightness(0.85);
     --background-color: var(--secondary-hover);
     --border-color: var(--secondary-hover);
     --color: var(--secondary-inverse);
+    filter: brightness(0.85);
   }
 
   .dates button:not(:first-of-type) {
@@ -208,7 +225,8 @@
     height: 2rem;
   }
 
-  .add::after, .add::before {
+  .add::after,
+  .add::before {
     position: absolute;
     top: 25%;
     left: 25%;
@@ -227,8 +245,8 @@
 
   .times {
     flex-wrap: wrap;
-    justify-content: flex-start;
     gap: 0.5rem;
+    justify-content: flex-start;
   }
 
   .times :global(.chip:hover) {
@@ -247,9 +265,8 @@
   }
 
   @media only screen and (width <= 575px) {
-    .dates{
-      --form-element-spacing-horizontal:0.5rem;
+    .dates {
+      --form-element-spacing-horizontal: 0.5rem;
     }
   }
-
 </style>

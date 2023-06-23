@@ -5,8 +5,8 @@
 
   const BREAKPOINT = 575;
 
-  let isNotPatient;
-  let innerWidth;
+  let isNotPatient: boolean = false;
+  let innerWidth: number;
   let form: Element;
   let inputs: HTMLInputElement[];
   export let isValid = true;
@@ -32,18 +32,8 @@
 <div bind:this={form} class="form">
   <h5>Patient Info</h5>
   <div class="flex">
-    <Label
-      title="First name"
-      type="text"
-      name="firstname"
-      required
-    />
-    <Label
-      title="Last name"
-      type="text"
-      name="lastname"
-      required
-    />
+    <Label title="First name" type="text" name="firstname" required />
+    <Label title="Last name" type="text" name="lastname" required />
   </div>
 
   <div class="flex">
@@ -77,14 +67,13 @@
     </label>
     {#if innerWidth > BREAKPOINT}
       <div id="gender">
-        <Radio 
-        
+        <Radio
           title="Gender"
-          name="gender" 
-          inputs={["M", "F", "O"]} 
+          name="gender"
+          inputs={["M", "F", "O"]}
           inputLabels={["M", "F", "O"]}
           on:update={validateInputs}
-        /> 
+        />
       </div>
     {/if}
   </div>
@@ -92,19 +81,24 @@
   <div class="flex">
     {#if innerWidth < BREAKPOINT}
       <div id="gender">
-        <Radio 
+        <Radio
           title="Gender"
-          name="gender" 
-          inputs={["M", "F", "O"]} 
+          name="gender"
+          inputs={["M", "F", "O"]}
           inputLabels={["M", "F", "O"]}
           on:update={validateInputs}
-        /> 
+        />
       </div>
     {/if}
     <label class="checkbox-label">
-      <input type="checkbox" id="representative" name="representative" bind:checked={isNotPatient} />
+      <input
+        type="checkbox"
+        id="representative"
+        name="representative"
+        bind:checked={isNotPatient}
+      />
       <div>
-        Are you requesting on behalf of someone else? 
+        Are you requesting on behalf of someone else?
         <small>(e.g. a child, parent, or spouse etc.)</small>
       </div>
     </label>
@@ -113,25 +107,14 @@
     <div class="rep-form">
       <h5>Representative Info</h5>
       <div class="flex">
-        <Label
-          title="First name"
-          type="text"
-          name="rep-firstname"
-          required
-        />
-        <Label
-          title="First name"
-          type="text"
-          name="rep-lastname"
-          required
-        />
+        <Label title="First name" type="text" name="rep-firstname" required />
+        <Label title="First name" type="text" name="rep-lastname" required />
       </div>
     </div>
   {/if}
 </div>
 
 <style>
-
   #gender {
     align-self: flex-start;
   }
@@ -148,8 +131,6 @@
     flex-basis: 40%;
     min-width: 10rem;
   }
-
-
 
   label small {
     color: var(--muted-color);

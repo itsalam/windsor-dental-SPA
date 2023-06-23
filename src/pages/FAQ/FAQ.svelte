@@ -7,13 +7,11 @@
   let faqsInfo: FAQInfo[], getAssetSrc: (src: string) => string;
   let cards: Element[];
   let titleElem: Element;
-  let midPoint = 0;
 
   sanity.subscribe((value) => {
     faqsInfo = value.faqsInfo;
     cards = Array(faqsInfo.length);
     getAssetSrc = value.getAssetSrc;
-    midPoint = Math.ceil(faqsInfo.length / 2);
   });
 </script>
 
@@ -46,10 +44,6 @@
 {/await}
 
 <style>
-  .faq-column {
-    width: 50%;
-  }
-
   :global(.faq-container) {
     right: 0;
     display: flex;
@@ -60,13 +54,13 @@
 
   :global(.faq-card) {
     width: 100%;
-    padding: 0rem;
+    padding: 0;
   }
 
   @media only screen and (width <= 1080px) {
     :global(.faq-container) {
       flex-direction: column;
-      gap: 0rem;
+      gap: 0;
     }
 
     :global(.faq-card) {

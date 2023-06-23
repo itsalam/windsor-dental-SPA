@@ -2,10 +2,7 @@
   import { writeDay, writeHours } from "~/utils/helper";
   import InfoLabel from "./InfoLabel.svelte";
 
-  const TEMP_DATA = {"firstname":"Vincent","lastname":"Lam","email":"vincentthanhlam@gmail.com","tel":"7783882376","DOB":"2023-06-01","zip":"V5H 0E1","gender":"M","representative":"on","rep-firstname":"Vincent","rep-lastname":"Lam","apointment":"routine","reoccuring":"on","availbilties": [{"day":"tuesday","range":{"from":"13:06","to":"17:06"}},{"day":"tuesday","range":{"from":"13:06","to":"17:06"}}],"comments":""}
-
-  let innerWidth;
-  let form: Element;
+  let innerWidth: number;
   export let formData: FormData;
   export let isFormComplete = false;
   export const isValid = true;
@@ -13,15 +10,20 @@
 
 <svelte:window bind:innerWidth />
 
-<div bind:this={form} class="form">
+<div class="form">
   <h5>Comments</h5>
   <div class="flex">
     <label for="comments">
-      <textarea id="comments" name="comments" rows="3" cols="50" placeholder="Please let us know about any other details such as insurance or anything else related!" />
+      <textarea
+        id="comments"
+        name="comments"
+        rows="3"
+        cols="50"
+        placeholder="Please let us know about any other details such as insurance or anything else related!"
+      />
     </label>
   </div>
   {#if isFormComplete && formData}
-  
     <h3>Confirmation of Details</h3>
     <div class="flex">
       <InfoLabel title="Patient Full Name">
@@ -36,7 +38,7 @@
     </div>
     <div class="flex">
       <InfoLabel title="Date of Birth">
-        {new Date(formData.get("dob")).toLocaleDateString()}
+        {new Date(formData.get("dob").toString()).toLocaleDateString()}
       </InfoLabel>
       <InfoLabel title="ZIP code">
         {formData.get("zip")}
@@ -55,16 +57,18 @@
         {formData.get("appointment")}
       </InfoLabel>
       <InfoLabel title="Reoccuring Patient?">
-        {formData.get("reoccuring") === "on"? "Yes" : "No" }
+        {formData.get("reoccuring") === "on" ? "Yes" : "No"}
       </InfoLabel>
     </div>
     <InfoLabel title="Weekdays requested" />
     <div class="chips">
-      {#each JSON.parse(formData.get("availbilties")) as availbility}
-        <span class="chip">{writeDay(availbility.day)} {writeHours(availbility.range, false)}</span>
+      {#each JSON.parse(formData.get("availbilties").toString()) as availbility}
+        <span class="chip"
+          >{writeDay(availbility.day)}
+          {writeHours(availbility.range, false)}</span
+        >
       {/each}
     </div>
-
   {/if}
 </div>
 
@@ -74,18 +78,17 @@
   }
 
   .flex {
-    justify-content: start
+    justify-content: start;
   }
 
   .chips {
-    padding: 0.25rem;
     display: flex;
     gap: 0.5rem;
+    padding: 0.25rem;
   }
 
   .chip {
     white-space: nowrap;
     cursor: initial;
-    
   }
 </style>

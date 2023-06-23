@@ -38,8 +38,8 @@ export type FAQInfo = {
 };
 
 export type Hours = {
-  from?: number;
-  to?: number;
+  from?: number | string;
+  to?: number | string;
   closed?: boolean;
 };
 

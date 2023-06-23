@@ -10,7 +10,7 @@
   .book-button {
     padding: var(--form-element-spacing-vertical)
       var(--form-element-spacing-horizontal);
-    font-size: calc(0.8 * var(--font-size));
     margin-bottom: 0;
+    font-size: calc(0.8 * var(--font-size));
   }
 </style>

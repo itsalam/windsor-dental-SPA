@@ -28,11 +28,10 @@
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
     gap: 1rem;
-    padding: var(--accordion-padding);
     align-items: flex-start;
     justify-content: start;
+    padding: var(--accordion-padding);
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     transition-property: background-color, border-color, color, filter, stroke,
@@ -41,14 +40,18 @@
 
   details summary::after {
     position: absolute;
-    bottom: var(--accordion-padding);
     right: var(--accordion-padding);
+    bottom: var(--accordion-padding);
   }
 
   summary:hover {
-    transform: scale(1.01);
+    background-color: hsl(0deg 0% 0% / 3.4%);
     filter: brightness(1.2);
-    background-color: hsla(0, 0%, 0%, 0.034);
+    transform: scale(1.01);
+  }
+
+  h3 {
+    margin-right: auto;
   }
 
   details[open] h3 {
@@ -56,33 +59,26 @@
   }
 
   details[open] > summary {
-    color: var(--accordion-open-summary-color);
     margin-bottom: 0;
+    color: var(--accordion-open-summary-color);
     background-color: transparent;
+    background-color: #0000000e;
     border-bottom-right-radius: 0;
     border-bottom-left-radius: 0;
-    background-color: #0000000e;
-  }
-
-  details[open] h3 {
   }
 
   .desc {
-    padding: var(--accordion-padding);
-    white-space: break-spaces;
     max-height: 0;
+    padding: var(--accordion-padding);
     overflow: hidden;
+    white-space: break-spaces;
     transition: max-height 0.5s ease-out;
   }
 
   details[open] .desc {
+    max-height: 100%;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
-    max-height: 100%;
-  }
-
-  h3 {
-    margin-right: auto;
   }
 
   :global(.card-svg) {

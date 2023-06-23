@@ -7,8 +7,7 @@
   let scrollY: number;
   let innerWidth: number;
   let innerHeight: number;
-
-  $: isWide = innerWidth > 1080;
+  export let isWide: boolean;
 
   const cameraPos = (
     innerWidth: number,

@@ -59,7 +59,7 @@
     });
   });
 
-  const getStarPos = (position: Position, offset = 0.8) => {
+  const getStarPos = (position: Position, offset = 0.8): Position => {
     const x = position[0] + Math.random() * offset - offset / 2;
     const y = position[1] + Math.random() * offset - offset / 2;
     return [x, y, position[2]];

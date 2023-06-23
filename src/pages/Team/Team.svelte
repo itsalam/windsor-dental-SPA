@@ -4,10 +4,8 @@
   import { sanity, type TeamInfo } from "../../store/client";
 
   let teamInfo: TeamInfo;
-  let getAssetSrc: (arg: string) => string;
   let carousel: HTMLDivElement;
   let track: HTMLDivElement;
-  $: mouseDown = false;
 
   let coords = spring(0, {
     stiffness: 0.05,
@@ -18,11 +16,10 @@
 
   sanity.subscribe((value) => {
     teamInfo = value.teamInfo;
-    getAssetSrc = value.getAssetSrc;
   });
 
-  const onMouseDown = () => {
-    event.preventDefault();
+  const onMouseDown = (e: MouseEvent) => {
+    e.preventDefault();
     addEventListener("mousemove", moveCarousel);
     addEventListener("mouseup", onMouseUp);
   };
@@ -32,7 +29,7 @@
     removeEventListener("mouseup", onMouseUp);
   };
 
-  const moveCarousel = (e) => {
+  const moveCarousel = (e: MouseEvent) => {
     const carouselRect = carousel.getBoundingClientRect();
     const trackRect = track.getBoundingClientRect();
     const maxTranslate = trackRect.width - carouselRect.width;
@@ -41,7 +38,7 @@
     );
   };
 
-  const imageHover = (e) => {};
+  const imageHover = (e) => {}; //TODO ADD IMAGE ON HOVER
 </script>
 
 {#await sanity then}
@@ -67,7 +64,7 @@
             style={`transform: translateX(${$coords}px);`}
           >
             {#each Array(5)
-              .fill()
+              .fill(null)
               .map((_, i) => i + 1) as i}
               <img
                 class="service-backdrop-svg"

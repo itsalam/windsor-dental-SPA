@@ -9,88 +9,87 @@
       <span class="line" class:complete={currStep >= i} />
     {/if}
     <div class="step" class:current={currStep === i}>
-      {i+1}
-      <div class:completed={currStep > i}> <div class="checkmark" />  </div>
+      {i + 1}
+      <div class:completed={currStep > i}><div class="checkmark" /></div>
     </div>
   {/each}
 </div>
 
 <style>
-    .stepper {
-        --border-width: 2px;
-        display: flex;
-        justify-content: space-between;
-        align-self: center;
-        margin-right: auto;
-        width: 50%;
+  .stepper {
+    --border-width: 2px;
+    display: flex;
     align-items: center;
-    }
+    align-self: center;
+    justify-content: space-between;
+    width: 50%;
+    margin-right: auto;
+  }
 
-    .step {
-        display: flex;
-        position: relative;
-        border-color: transparent;
-        border-width: var(--border-width);
-        border-style: solid;
-        background-color: var(--contrast-focus);
-        height: 2rem;
-        width: 2rem;
-        border-radius: 50%;
-        align-items: center;
-        justify-content: center;
-        transition-property: background-color, border-color;
-        transition-duration: .2s;
-        transition-timing-function: ease-in-out;
-    }
+  .step {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    background-color: var(--contrast-focus);
+    border-color: transparent;
+    border-style: solid;
+    border-width: var(--border-width);
+    border-radius: 50%;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.2s;
+    transition-property: background-color, border-color;
+  }
 
-    .step.current {
-        border-color: var(--highlight);
-    }
+  .step.current {
+    border-color: var(--highlight);
+  }
 
-    .step>div {
-        position: absolute;
-        border-radius: 50%;
-        width: 100%;
-        height: 100%;
-        background-color: var(--highlight);
-        transition: opacity 0.2s ease-in-out;
-        opacity: 0%;
-        overflow: hidden;
-    }
+  .step > div {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background-color: var(--highlight);
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.2s ease-in-out;
+  }
 
-    .step>.completed {
-        opacity: 100%;
-    }
+  .step > .completed {
+    opacity: 1;
+  }
 
-    .checkmark {
-        height: 100%;
-        width: 100%;
-        background-position: center;
-        background-size: auto 1rem;
-        background-repeat: no-repeat;
-        background-image: var(--icon-checkbox);
-        transform: translateY(1rem);
-        opacity: 0%;
-        transition-property: transform, opacity;
-        transition-duration: .2s;
-        transition-timing-function: ease-in-out;
-    }
+  .checkmark {
+    width: 100%;
+    height: 100%;
+    background-image: var(--icon-checkbox);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 1rem;
+    opacity: 0;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.2s;
+    transition-property: transform, opacity;
+    transform: translateY(1rem);
+  }
 
-    .completed>.checkmark {
-        opacity: 100%;
-        transform: translateY(0rem);
-    }
+  .completed > .checkmark {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
-    .line {
-        height: 2px;
-        flex: 1;
-        background-color: var(--contrast-focus);
-        margin: 0.5rem;
-        transition: background-color 0.2s ease-in-out;
-    }
+  .line {
+    flex: 1;
+    height: 2px;
+    margin: 0.5rem;
+    background-color: var(--contrast-focus);
+    transition: background-color 0.2s ease-in-out;
+  }
 
-    .line.complete {
-        background-color: var(--highlight);
-    }
-
+  .line.complete {
+    background-color: var(--highlight);
+  }
 </style>

@@ -1,10 +1,10 @@
 <script lang="ts">
-  export let className: string;
+  export let className: string = "";
   export let name: string;
   export let title: string;
   export let type: string;
   export let required: boolean;
-  export let placeholder: string;
+  export let placeholder: string = undefined;
 </script>
 
 <label for={name} class={className}>
