@@ -27,7 +27,7 @@
     new Vector3(-2, 3, 1),
     new Vector3(4, 2, 1),
     new Vector3(0.8, 6.75, 1),
-    new Vector3(5.4, 6.75, 1),
+    new Vector3(5.4, 6, 1),
   ];
   const halfTonesPosArr: Position[] = [
     [0, -4, -20],

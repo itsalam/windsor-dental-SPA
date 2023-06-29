@@ -7,7 +7,6 @@
   let scrollY: number;
   let innerWidth: number;
   let innerHeight: number;
-  export let isWide: boolean;
 
   const cameraPos = (
     innerWidth: number,
@@ -18,7 +17,7 @@
     lookAt: [x: number, y: number, z: number];
     fov: number;
   } => {
-    if (!isWide) {
+    if (innerWidth < innerHeight) {
       const xPos = 2.5;
       const yPos = -5 - (30 * scrollY) / innerHeight;
       return {

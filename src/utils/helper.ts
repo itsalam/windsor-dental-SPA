@@ -38,3 +38,7 @@ export const writeHours = (hours: Hours, addSuffix: boolean = true): string => {
   };
   return convertToTime(hours.from) + " - " + convertToTime(hours.to);
 };
+
+export const isPortrait = () => {
+  return window.innerHeight > window.innerWidth;
+};

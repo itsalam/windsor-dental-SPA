@@ -46,3 +46,27 @@
 <div class={`scroll-container ${$$props.class}`}>
   <slot />
 </div>
+
+<style>
+  .scroll-container {
+    --scroll-container-width: 66%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: var(--scroll-container-width);
+
+    max-width: 960px;
+  }
+
+  @media (width <= 1080px) {
+    .scroll-container {
+      --scroll-container-width: 100%;
+    }
+  }
+
+  @media (orientation: portrait) {
+    .scroll-container {
+      --scroll-container-width: 100%;
+    }
+  }
+</style>

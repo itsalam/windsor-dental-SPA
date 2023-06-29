@@ -4,6 +4,7 @@
   import Canvas from "./components/Canvas.svelte";
   import Toolbar from "./components/Toolbar.svelte";
   import Faq from "./pages/FAQ/FAQ.svelte";
+  import FaqGroup from "./pages/FAQ/threejs/FaqGroup.svelte";
   import Footer from "./pages/Footer.svelte";
   import Hero from "./pages/Hero/Hero.svelte";
   import HeroGroup from "./pages/Hero/threejs/HeroGroup.svelte";
@@ -24,7 +25,6 @@
 
   let innerWidth: number;
   let innerHeight: number;
-  $: isWide = innerWidth > innerHeight;
 
   const loadPromise = Promise.all([
     new Promise((r) => setTimeout(r, 1000)),
@@ -50,10 +50,11 @@
     <Services />
     <Team />
     <Faq />
-    <Canvas {isWide}>
-      <HeroGroup {getAssetSrc} {isWide} />
+    <Canvas>
+      <HeroGroup {getAssetSrc} />
       <ServiceGroup {getAssetSrc} />
       <TeamGroup {getAssetSrc} />
+      <FaqGroup {getAssetSrc} />
     </Canvas>
     <Footer />
   </main>

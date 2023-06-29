@@ -46,7 +46,7 @@
         <li><a href="#team"> Team </a></li>
         <li><a href="#faqs"> FAQs </a></li>
       </ul>
-      <button class="up-nav">
+      <button class="up-nav" on:click={() => window.scrollTo(0, 0)}>
         <svg
           enable-background="new 0 0 32 32"
           height="32px"

@@ -2,7 +2,7 @@
   import { afterUpdate } from "svelte";
   import type { Hours } from "~/store/client";
   import { writeDay, writeHours } from "~/utils/helper";
-  import Radio from "../Radio.svelte";
+  import Radio from "./Radio.svelte";
 
   let innerWidth: number;
   let innerHeight: number;
@@ -23,9 +23,10 @@
     isValid = inputs !== undefined && inputs.every((i) => i.validity.valid);
     isValid = isValid && availbilties.length > 0;
     if (!fromInput?.disabled && !toInput?.disabled) {
-      validRange = fromInput.value < toInput.value;
-      validRange =
-        validRange && fromInput.validity.valid && toInput.validity.valid;
+      console.log(!!fromInput.value, toInput.value);
+      validRange = !!fromInput.value && !!toInput.value;
+      validRange &&= fromInput.value < toInput.value;
+      validRange &&= fromInput.validity.valid && toInput.validity.valid;
     } else {
       validRange = false;
     }
@@ -63,6 +64,7 @@
       inputs={["routine", "consult"]}
       inputLabels={["Routine Cleaning/Exam", "Service Consultation"]}
       on:update={validateInputs}
+      required
     />
     <label for="terms" class="checkbox-label">
       <input type="checkbox" id="reoccuring" name="reoccuring" />
@@ -133,7 +135,7 @@
       on:click={handleAddDate}
     />
   </div>
-  <h6>Availbilties Picked:</h6>
+  <h6>Availbilties Picked*:</h6>
   <fieldset>
     <div class="times flex">
       {#each availbilties as availbility, i}

@@ -1,8 +1,10 @@
 <script lang="ts">
   import { writeDay, writeHours } from "~/utils/helper";
-  import InfoLabel from "./InfoLabel.svelte";
+  import Label from "./Label.svelte";
 
   let innerWidth: number;
+  let commentTextArea: HTMLTextAreaElement;
+
   export let formData: FormData;
   export let isFormComplete = false;
   export const isValid = true;
@@ -11,65 +13,71 @@
 <svelte:window bind:innerWidth />
 
 <div class="form">
-  <h5>Comments</h5>
-  <div class="flex">
-    <label for="comments">
-      <textarea
-        id="comments"
-        name="comments"
-        rows="3"
-        cols="50"
-        placeholder="Please let us know about any other details such as insurance or anything else related!"
-      />
-    </label>
-  </div>
-  {#if isFormComplete && formData}
-    <h3>Confirmation of Details</h3>
-    <div class="flex">
-      <InfoLabel title="Patient Full Name">
-        {formData.get("firstname") + " " + formData.get("lastname")}
-      </InfoLabel>
-      <InfoLabel title="Email">
-        {formData.get("email")}
-      </InfoLabel>
-      <InfoLabel title="Telephone">
-        {formData.get("tel")}
-      </InfoLabel>
-    </div>
-    <div class="flex">
-      <InfoLabel title="Date of Birth">
-        {new Date(formData.get("dob").toString()).toLocaleDateString()}
-      </InfoLabel>
-      <InfoLabel title="ZIP code">
-        {formData.get("zip")}
-      </InfoLabel>
-      <InfoLabel title="Gender">
-        {formData.get("gender")}
-      </InfoLabel>
-    </div>
-    {#if formData.get("representative")}
-      <InfoLabel title="Representative Full Name">
-        {formData.get("rep-firstname") + " " + formData.get("rep-lastname")}
-      </InfoLabel>
+  <Label title="Comments" name="comments">
+    <textarea
+      id="comments"
+      name="comments"
+      rows="3"
+      cols="50"
+      placeholder="Please let us know about any other details such as insurance or anything else related!"
+      bind:this={commentTextArea}
+    />
+  </Label>
+
+  <div class="confirmation">
+    {#if isFormComplete && formData}
+      <h3>Confirmation of Details</h3>
+      <div class="flex">
+        <Label title="Patient Full Name">
+          <p>{formData.get("firstname") + " " + formData.get("lastname")}</p>
+        </Label>
+        <Label title="Email">
+          <p>{formData.get("email")}</p>
+        </Label>
+        <Label title="Telephone">
+          <p>{formData.get("tel")}</p>
+        </Label>
+      </div>
+      <div class="flex">
+        <Label title="Date of Birth">
+          <p>{new Date(formData.get("dob").toString()).toLocaleDateString()}</p>
+        </Label>
+        <Label title="ZIP code">
+          <p>{formData.get("zip")}</p>
+        </Label>
+        <Label title="Gender">
+          <p>{formData.get("gender")}</p>
+        </Label>
+      </div>
+      {#if formData.get("representative")}
+        <Label title="Representative Full Name">
+          <p>
+            {formData.get("repFirstname") + " " + formData.get("repLastname")}
+          </p>
+        </Label>
+      {/if}
+      <div class="flex">
+        <Label title="Appointment Type">
+          <p>{formData.get("appointment")}</p>
+        </Label>
+        <Label title="Reoccuring Patient?">
+          <p>{formData.get("reoccuring") === "on" ? "Yes" : "No"}</p>
+        </Label>
+      </div>
+      <Label title="Weekdays requested" name="">
+        <div class="chips">
+          {#each JSON.parse(formData
+              .get("availbilties")
+              .toString()) as availbility}
+            <span class="chip"
+              >{writeDay(availbility.day)}
+              {writeHours(availbility.range, false)}</span
+            >
+          {/each}
+        </div>
+      </Label>
     {/if}
-    <div class="flex">
-      <InfoLabel title="Appointment Type">
-        {formData.get("appointment")}
-      </InfoLabel>
-      <InfoLabel title="Reoccuring Patient?">
-        {formData.get("reoccuring") === "on" ? "Yes" : "No"}
-      </InfoLabel>
-    </div>
-    <InfoLabel title="Weekdays requested" />
-    <div class="chips">
-      {#each JSON.parse(formData.get("availbilties").toString()) as availbility}
-        <span class="chip"
-          >{writeDay(availbility.day)}
-          {writeHours(availbility.range, false)}</span
-        >
-      {/each}
-    </div>
-  {/if}
+  </div>
 </div>
 
 <style>
@@ -81,8 +89,13 @@
     justify-content: start;
   }
 
+  p {
+    font-size: 0.85rem;
+  }
+
   .chips {
     display: flex;
+    flex-flow: row wrap;
     gap: 0.5rem;
     padding: 0.25rem;
   }
@@ -99,7 +112,7 @@
 
     .flex {
       flex-flow: row wrap;
-      row-gap: 0.25rem;
+      row-gap: 0.375rem;
       padding: 0.375rem 0;
     }
   }

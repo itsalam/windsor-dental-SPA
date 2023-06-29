@@ -1,7 +1,7 @@
 <script lang="ts">
   import { afterUpdate } from "svelte";
-  import Radio from "../Radio.svelte";
   import Label from "./Label.svelte";
+  import Radio from "./Radio.svelte";
 
   const BREAKPOINT = 575;
 
@@ -32,8 +32,8 @@
 <div bind:this={form} class="form">
   <h5>Patient Info</h5>
   <div class="flex">
-    <Label title="First name" type="text" name="firstname" required />
-    <Label title="Last name" type="text" name="lastname" required />
+    <Label title="First name" type="text" name="firstName" required />
+    <Label title="Last name" type="text" name="lastName" required />
   </div>
 
   <div class="flex">
@@ -56,15 +56,18 @@
   </div>
 
   <div class="flex">
-    <label for="dob">
-      <h6>Date of Birth</h6>
+    <Label title="Date of Birth" type="date" name="dob" required>
       <input type="date" id="dob" name="dob" required />
-    </label>
+    </Label>
 
-    <label for="zip">
-      <h6>Zip Code</h6>
-      <input type="text" id="zip" name="zip" placeholder="V5N 2R6" required />
-    </label>
+    <Label
+      title="Zip Code"
+      type="text"
+      name="zip"
+      placeholder="V5N 2R6"
+      required
+    />
+
     {#if innerWidth > BREAKPOINT}
       <div id="gender">
         <Radio
@@ -73,6 +76,7 @@
           inputs={["M", "F", "O"]}
           inputLabels={["M", "F", "O"]}
           on:update={validateInputs}
+          required
         />
       </div>
     {/if}
@@ -107,8 +111,8 @@
     <div class="rep-form">
       <h5>Representative Info</h5>
       <div class="flex">
-        <Label title="First name" type="text" name="rep-firstname" required />
-        <Label title="First name" type="text" name="rep-lastname" required />
+        <Label title="First name" type="text" name="repFirstName" required />
+        <Label title="First name" type="text" name="repLastName" required />
       </div>
     </div>
   {/if}

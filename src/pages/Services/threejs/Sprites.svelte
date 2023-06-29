@@ -16,6 +16,8 @@
   let halftoneSvgSrc: string;
   let chairMesh = [];
   let chartMesh = [];
+  let innerWidth: number;
+  let innerHeight: number;
 
   const chairPos: Position = [12, 0, -10];
   const chartPos: Position = [21, 3, -15];
@@ -35,31 +37,35 @@
   halftoneSvgSrc = getAssetSrc("halftone");
 </script>
 
+<svelte:window bind:innerWidth bind:innerHeight />
+
 <Float
   floatIntensity={5}
   speed={2}
   rotationIntensity={0.1}
   rotationSpeed={[0.0, 0.0, 0]}
 >
-  <T.Group>
-    {#each chairMesh as spriteMesh}
-      <T.Mesh
-        {...spriteMesh}
-        scale={0.3}
-        position={chairPos}
-        rotation={[0, degToRad(180), 0]}
-      />
-    {/each}
+  {#if innerWidth > innerHeight}
+    <T.Group>
+      {#each chairMesh as spriteMesh}
+        <T.Mesh
+          {...spriteMesh}
+          scale={0.3}
+          position={chairPos}
+          rotation={[0, degToRad(180), 0]}
+        />
+      {/each}
 
-    {#each chartMesh as spriteMesh}
-      <T.Mesh
-        {...spriteMesh}
-        scale={0.2}
-        position={chartPos}
-        rotation={[0, degToRad(180), 0]}
-      />
-    {/each}
-  </T.Group>
+      {#each chartMesh as spriteMesh}
+        <T.Mesh
+          {...spriteMesh}
+          scale={0.2}
+          position={chartPos}
+          rotation={[0, degToRad(180), 0]}
+        />
+      {/each}
+    </T.Group>
+  {/if}
 </Float>
 {#each halfTonesPosArr as halfTonesPos}
   <HTML position={halfTonesPos} scale={HALFTONE_SCALE} transform>

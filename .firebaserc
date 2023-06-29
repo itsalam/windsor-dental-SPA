@@ -1,5 +1,13 @@
 {
   "projects": {
     "default": "windsor-dental"
+  },
+  "targets": {},
+  "etags": {
+    "windsor-dental": {
+      "extensionInstances": {
+        "firestore-send-email": "61b02519c67b4d57aa18efc6cadad1c7c519de4300cfe22f27f0c83e4289b08c"
+      }
+    }
   }
 }

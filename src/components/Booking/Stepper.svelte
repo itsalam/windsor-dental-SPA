@@ -73,7 +73,7 @@
     transition-timing-function: ease-in-out;
     transition-duration: 0.2s;
     transition-property: transform, opacity;
-    transform: translateY(1rem);
+    transform: translateY(0.5rem);
   }
 
   .completed > .checkmark {

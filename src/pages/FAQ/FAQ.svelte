@@ -44,17 +44,13 @@
 {/await}
 
 <style>
-  :global(.faq-container) {
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 100%;
-  }
-
   :global(.faq-card) {
     width: 100%;
     padding: 0;
+  }
+
+  :global(.faq-container.scroll-container) {
+    width: 100%;
   }
 
   @media (orientation: portrait) {

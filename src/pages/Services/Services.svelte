@@ -53,23 +53,6 @@
   }
 
   :global(.services-container) {
-    right: 0;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 66%;
     max-width: 960px;
-  }
-
-  @media (orientation: portrait) {
-    :global(.services-container) {
-      width: 100%;
-    }
-  }
-
-  @media (width <= 1080px) {
-    :global(.services-container) {
-      width: 100%;
-    }
   }
 </style>

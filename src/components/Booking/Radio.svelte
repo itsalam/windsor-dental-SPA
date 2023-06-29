@@ -1,11 +1,13 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
+  import Label from "./Label.svelte";
   const dispatch = createEventDispatcher();
 
   export let name: string;
   export let inputs: string[];
   export let inputLabels: string[];
   export let title: string;
+  export let required: boolean = false;
   let currFocused: number;
 
   const handleClick = (i: number) => () => {
@@ -20,12 +22,11 @@
   };
 </script>
 
-<label for={name}>
-  <h6>{title}</h6>
+<Label {name} {title} {required}>
   <fieldset class="radio-div">
     {#each inputs as input, i}
       <label for={input}>
-        <input type="radio" id={input} {name} value={input} required />
+        <input type="radio" id={input} {name} value={input} {required} />
         <button
           class=""
           class:pressed={currFocused === i}
@@ -35,7 +36,7 @@
       </label>
     {/each}
   </fieldset>
-</label>
+</Label>
 
 <style>
   .radio-div {

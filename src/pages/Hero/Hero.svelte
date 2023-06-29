@@ -134,24 +134,13 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 32px;
-    max-width: 32px;
-    height: 32px;
-  }
-
-  h1 {
-    --font-size: 2.8rem;
-    width: 100%;
+    min-width: 1.2rem;
+    max-width: 1.2rem;
+    height: 1.2rem;
   }
 
   @media (orientation: portrait) {
-    h1 {
-      --font-size: 2.4rem;
-    }
-
     .desc h1 {
-      --font-size: 2.4rem;
-
       margin-bottom: auto;
     }
 

@@ -48,7 +48,8 @@ export const loadData = (
   spriteSrc: string,
   spritemeshArr: { geometry: ShapeGeometry; material: MeshBasicMaterial }[],
   scale: number,
-  callback: () => any
+  callback: () => any,
+  setDefaultColor?: boolean
 ) =>
   loader.load(
     spriteSrc,
@@ -57,7 +58,7 @@ export const loadData = (
       let maxGeoSize = new Vector3(0, 0, 0);
       for (let path of paths) {
         let depthWrite = false;
-        if (path.color.getHex() === 0) {
+        if (path.color.getHex() === 0 || setDefaultColor) {
           path.color = new Color(
             parseInt(
               getComputedStyle(document.documentElement)
@@ -110,7 +111,6 @@ export function followElement(
   callBack: (positionY: Tweened<number>) => void
 ) {
   let observerLoaded = false;
-
   const { camera } = useThrelte();
 
   useFrame(() => {

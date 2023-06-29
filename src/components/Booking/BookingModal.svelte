@@ -22,7 +22,20 @@
 
   const submitForm = (e: SubmitEvent) => {
     e.preventDefault();
-    console.log(e);
+    formData = new FormData(modal.querySelector("form") as HTMLFormElement);
+    fetch((e.target as HTMLFormElement).action, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        // 'Content-Type': 'application/x-www-form-urlencoded',
+      },
+      body: JSON.stringify(Object.fromEntries(formData)),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        toggleModal(modal);
+      });
     for (var [key, value] of formData.entries()) {
       console.log(key, value);
     }
@@ -34,17 +47,14 @@
 
   $: if (forms) {
     formData = new FormData(modal.querySelector("form") as HTMLFormElement);
-    console.log(formData);
     forms.style.setProperty("--curent-page", `${currFormIdx}`);
   }
-
-  // ADD EXIT ON CLICKOUTSIDE LISTENR
 </script>
 
 <svelte:window bind:innerWidth />
 
 <dialog id="modal" bind:this={modal}>
-  <form on:submit={submitForm}>
+  <form on:submit={submitForm} action="/sendAppointmentRequest">
     <article>
       <a
         href="#close"
@@ -69,9 +79,9 @@
       <footer>
         <Stepper steps={validForms} currStep={currFormIdx} />
         {#if currFormIdx === 0}
-          <button class="cancel secondary" on:click={toggleModal(modal)}
-            >Cancel</button
-          >
+          <button class="cancel secondary" on:click={toggleModal(modal)}>
+            Cancel
+          </button>
         {:else}
           <button
             class="back secondary before"
@@ -134,9 +144,27 @@
     min-width: 100%;
   }
 
+  @keyframes example {
+    from {
+      opacity: 0;
+    }
+
+    to {
+      opacity: 1;
+    }
+  }
+
   dialog {
     --form-element-spacing-vertical: 0.5rem;
     --form-element-spacing-horizontal: 1rem;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+
+  dialog[open] {
+    animation-name: example;
+    animation-duration: 0.15s;
+    animation-fill-mode: forwards;
   }
 
   :global(article input) {

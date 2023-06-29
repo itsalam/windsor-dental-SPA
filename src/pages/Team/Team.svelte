@@ -1,18 +1,35 @@
 <script lang="ts">
+  import { beforeUpdate } from "svelte";
   import { spring } from "svelte/motion";
   import Card from "~/components/Card.svelte";
   import { sanity, type TeamInfo } from "../../store/client";
 
+  const randomImgSrc = "https://source.unsplash.com/random/?dentist,clinic";
+
+  const DEFAULT_OFFSET = 50;
+
   let teamInfo: TeamInfo;
+  let container: HTMLDivElement;
   let carousel: HTMLDivElement;
   let track: HTMLDivElement;
+  let preview: HTMLImageElement;
+  let mouseDown = false;
+  let previewActive = false;
 
-  let coords = spring(0, {
+  let trackCoords = spring(0, {
     stiffness: 0.05,
     damping: 1,
   });
 
-  const randomImgSrc = "https://source.unsplash.com/random/?dental,clinic";
+  let previewCoords = spring(
+    { x: 0, y: 0 },
+    {
+      stiffness: 0.04,
+      damping: 0.5,
+    }
+  );
+
+  let currMainImgSrc = randomImgSrc;
 
   sanity.subscribe((value) => {
     teamInfo = value.teamInfo;
@@ -20,56 +37,95 @@
 
   const onMouseDown = (e: MouseEvent) => {
     e.preventDefault();
+    mouseDown = true;
     addEventListener("mousemove", moveCarousel);
     addEventListener("mouseup", onMouseUp);
+    addEventListener("mouseleave", onMouseUp);
   };
 
   const onMouseUp = () => {
+    mouseDown = false;
     removeEventListener("mousemove", moveCarousel);
     removeEventListener("mouseup", onMouseUp);
+    removeEventListener("mouseleave", onMouseUp);
   };
 
-  const moveCarousel = (e: MouseEvent) => {
+  beforeUpdate(() => {
+    setTimeout(() => moveCarousel(null, 0.3, {}), 2000);
+  });
+
+  const moveCarousel = (e?: MouseEvent, movePercent?: number, opts?: {}) => {
+    if (!mouseDown && movePercent === undefined) return;
     const carouselRect = carousel.getBoundingClientRect();
     const trackWidth = Object.values(track.childNodes).reduce(
       (total, i) => total + (i as HTMLElement).offsetWidth,
       0
     );
     const maxTranslate = trackWidth - carouselRect.width;
-    console.log(
-      track.offsetWidth,
-      track.getBoundingClientRect().width,
-      maxTranslate
-    );
-    coords.set(
-      Math.min(Math.max($coords + e.movementX * maxTranslate, -maxTranslate), 0)
+    movePercent = movePercent ? movePercent / 100 : -(e.movementX / 10);
+    trackCoords.set(
+      Math.min(
+        Math.max($trackCoords + movePercent * -maxTranslate, -maxTranslate),
+        0
+      ),
+      opts
     );
   };
 
-  const imageHover = (e) => {}; //TODO ADD IMAGE ON HOVER
+  const imageHover = (e: MouseEvent) => {
+    if (mouseDown) {
+      previewActive = false;
+      return;
+    }
+    const containerRect = container.getBoundingClientRect();
+    let yOffset =
+      e.clientY > window.innerHeight / 2
+        ? -preview.height - DEFAULT_OFFSET
+        : DEFAULT_OFFSET;
+    let xOffset =
+      e.clientX > window.innerWidth / 2
+        ? -preview.width - DEFAULT_OFFSET
+        : DEFAULT_OFFSET;
+    previewCoords.set({
+      x: e.clientX - containerRect.left + xOffset,
+      y: e.clientY - containerRect.top + yOffset,
+    });
+    preview.src = (e.target as HTMLImageElement).src;
+  }; //TODO ADD IMAGE ON HOVER
 </script>
 
 {#await sanity then}
-  <div class="page-container" id="team">
+  <div class="page-container" id="team" bind:this={container}>
+    <img
+      class="preview"
+      class:active={previewActive}
+      alt="Preview of the dental clinic track images"
+      bind:this={preview}
+      style={`top: ${$previewCoords.y}px; left: ${$previewCoords.x}px;`}
+    />
+
     <div class="title">
       <h1>Meet the Team</h1>
     </div>
-
     <Card class="team-card glass">
       <img
         class="display"
-        src={randomImgSrc}
+        src={currMainImgSrc}
+        on:mousemove={imageHover}
+        on:mouseleave={() => (previewActive = false)}
+        on:mouseenter={() => (previewActive = true)}
+        on:focus={() => {}}
         alt="Staff at the dental clinic"
       />
       <div class="description">
-        <h2>{teamInfo.slogan}</h2>
+        <h3>{teamInfo.slogan}</h3>
         <span />
         <p>{teamInfo.description}</p>
         <div class="carousel" bind:this={carousel} on:mousedown={onMouseDown}>
           <div
             class="track"
             bind:this={track}
-            style={`transform: translateX(${$coords}px);`}
+            style={`transform: translateX(${$trackCoords}px);`}
           >
             {#each Array(5)
               .fill(null)
@@ -78,8 +134,11 @@
                 class="service-backdrop-svg"
                 src={`${randomImgSrc}?sig=${i}`}
                 alt="Staff at the dental clinic"
-                on:mouseover={imageHover}
+                on:mousemove={imageHover}
+                on:mouseleave={() => (previewActive = false)}
+                on:mouseenter={() => (previewActive = true)}
                 on:focus={() => {}}
+                style={`cursor: url(${randomImgSrc}?sig=${i}), auto;`}
               />
             {/each}
           </div>
@@ -91,7 +150,12 @@
 
 <style>
   #team {
+    position: relative;
     height: 100svh;
+  }
+
+  img {
+    border-radius: var(--border-radius);
   }
 
   .title {
@@ -137,7 +201,7 @@
     position: relative;
     display: flex;
     width: 100%;
-    height: 30%;
+    max-height: 45%;
     margin-top: auto;
     overflow: hidden;
   }
@@ -145,12 +209,27 @@
   .carousel::after {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
+    right: 0;
+    width: 20%;
     height: 100%;
     pointer-events: none;
     content: "";
     background: linear-gradient(-90deg, rgb(255 255 255) 10%, transparent 25%);
+  }
+
+  .preview {
+    position: absolute;
+    z-index: -20;
+    max-width: 25rem;
+    max-height: 25rem;
+    opacity: 0;
+    transition: opacity 150ms;
+  }
+
+  .preview.active {
+    z-index: 20;
+    visibility: visible;
+    opacity: 1;
   }
 
   .track {

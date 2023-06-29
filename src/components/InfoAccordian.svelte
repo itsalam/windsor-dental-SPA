@@ -3,9 +3,10 @@
   export let iconSrc: string;
   export let name: string;
   export let description: string;
+  export let right: boolean = false;
 </script>
 
-<details>
+<details class:right>
   <summary>
     <Svg class="card-svg" src={iconSrc} />
     <h3>{name}</h3>
@@ -29,9 +30,8 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
-    align-items: flex-start;
     justify-content: start;
-    padding: var(--accordion-padding);
+    padding: calc(1.3 * var(--accordion-padding));
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 150ms;
     transition-property: background-color, border-color, color, filter, stroke,
@@ -51,7 +51,7 @@
   }
 
   h3 {
-    margin-right: auto;
+    text-align: left;
   }
 
   details[open] h3 {
@@ -85,5 +85,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (orientation: landscape) {
+    .right {
+      align-self: end;
+    }
+
+    .right summary {
+      align-items: flex-end;
+      text-align: end;
+    }
+
+    .right summary h3 {
+      text-align: end;
+    }
+
+    .right summary::after {
+      right: 0;
+      left: var(--accordion-padding);
+
+      transform: rotate(90deg);
+    }
+
+    .right[open] summary::after {
+      transform: rotate(0deg);
+    }
   }
 </style>

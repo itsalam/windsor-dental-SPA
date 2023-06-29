@@ -123,13 +123,5 @@
   <InstancedMesh>
     <T.SphereGeometry />
     <T.MeshStandardMaterial />
-    <!-- {#each curvePoints as point}
-      <Instance position={[...point]} scale={0.2} />
-      <Text
-        position={[...point]}
-        scale={0.2}
-        text={`${point.x}, ${point.y}, ${point.z}`}
-      />
-    {/each} -->
   </InstancedMesh>
 </T.Group>
